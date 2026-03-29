@@ -321,52 +321,52 @@ annee;cde_pays;pays;cde_unite;unite;valeur_mesuree
 2023;FRA;France;PT_B1GQ;Pourcentage du PIB;119,9
 2024;FRA;France;XDC;Monnaie nationale;3579977,6
 2024;FRA;France;PT_B1GQ;Pourcentage du PIB;122,6
-2002;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;114,8
-2002;GRC;Grèce;XDC;Monnaie nationale;182371
-2003;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;111,3
-2003;GRC;Grèce;XDC;Monnaie nationale;193784
-2004;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;112,8
-2004;GRC;Grèce;XDC;Monnaie nationale;213106
-2005;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;116,4
-2005;GRC;Grèce;XDC;Monnaie nationale;226674
-2006;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;112,1
-2006;GRC;Grèce;XDC;Monnaie nationale;240249,4
-2007;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;112
-2007;GRC;Grèce;XDC;Monnaie nationale;256887,7
-2008;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;120,5
-2008;GRC;Grèce;XDC;Monnaie nationale;287710,7
-2009;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;139,5
-2009;GRC;Grèce;XDC;Monnaie nationale;326886,7
-2010;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;159,3
-2010;GRC;Grèce;XDC;Monnaie nationale;356227,7
-2011;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;186,3
-2011;GRC;Grèce;XDC;Monnaie nationale;379040,7
-2012;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;177,7
-2012;GRC;Grèce;XDC;Monnaie nationale;330306,7
-2013;GRC;Grèce;XDC;Monnaie nationale;340820,7
-2013;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;191,3
-2014;GRC;Grèce;XDC;Monnaie nationale;338931,9
-2014;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;192,5
-2015;GRC;Grèce;XDC;Monnaie nationale;337199,4
-2015;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;192,3
-2016;GRC;Grèce;XDC;Monnaie nationale;340971,4
-2016;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;195,5
-2017;GRC;Grèce;XDC;Monnaie nationale;342888,2
-2017;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;193,3
-2018;GRC;Grèce;XDC;Monnaie nationale;360045,2
-2018;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;199,3
-2019;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;194,1
-2019;GRC;Grèce;XDC;Monnaie nationale;359375,2
-2020;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;223,6
-2020;GRC;Grèce;XDC;Monnaie nationale;374626,4
-2021;GRC;Grèce;XDC;Monnaie nationale;393931,2
-2021;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;213,4
-2022;GRC;Grèce;XDC;Monnaie nationale;400924,2
-2022;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;193,7
-2023;GRC;Grèce;XDC;Monnaie nationale;402569,2
-2023;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;179,2
-2024;GRC;Grèce;XDC;Monnaie nationale;399098,2
-2024;GRC;Grèce;PT_B1GQ;Pourcentage du PIB;168,6
+2002;GRC;Grece;PT_B1GQ;Pourcentage du PIB;114,8
+2002;GRC;Grece;XDC;Monnaie nationale;182371
+2003;GRC;Grece;PT_B1GQ;Pourcentage du PIB;111,3
+2003;GRC;Grece;XDC;Monnaie nationale;193784
+2004;GRC;Grece;PT_B1GQ;Pourcentage du PIB;112,8
+2004;GRC;Grece;XDC;Monnaie nationale;213106
+2005;GRC;Grece;PT_B1GQ;Pourcentage du PIB;116,4
+2005;GRC;Grece;XDC;Monnaie nationale;226674
+2006;GRC;Grece;PT_B1GQ;Pourcentage du PIB;112,1
+2006;GRC;Grece;XDC;Monnaie nationale;240249,4
+2007;GRC;Grece;PT_B1GQ;Pourcentage du PIB;112
+2007;GRC;Grece;XDC;Monnaie nationale;256887,7
+2008;GRC;Grece;PT_B1GQ;Pourcentage du PIB;120,5
+2008;GRC;Grece;XDC;Monnaie nationale;287710,7
+2009;GRC;Grece;PT_B1GQ;Pourcentage du PIB;139,5
+2009;GRC;Grece;XDC;Monnaie nationale;326886,7
+2010;GRC;Grece;PT_B1GQ;Pourcentage du PIB;159,3
+2010;GRC;Grece;XDC;Monnaie nationale;356227,7
+2011;GRC;Grece;PT_B1GQ;Pourcentage du PIB;186,3
+2011;GRC;Grece;XDC;Monnaie nationale;379040,7
+2012;GRC;Grece;PT_B1GQ;Pourcentage du PIB;177,7
+2012;GRC;Grece;XDC;Monnaie nationale;330306,7
+2013;GRC;Grece;XDC;Monnaie nationale;340820,7
+2013;GRC;Grece;PT_B1GQ;Pourcentage du PIB;191,3
+2014;GRC;Grece;XDC;Monnaie nationale;338931,9
+2014;GRC;Grece;PT_B1GQ;Pourcentage du PIB;192,5
+2015;GRC;Grece;XDC;Monnaie nationale;337199,4
+2015;GRC;Grece;PT_B1GQ;Pourcentage du PIB;192,3
+2016;GRC;Grece;XDC;Monnaie nationale;340971,4
+2016;GRC;Grece;PT_B1GQ;Pourcentage du PIB;195,5
+2017;GRC;Grece;XDC;Monnaie nationale;342888,2
+2017;GRC;Grece;PT_B1GQ;Pourcentage du PIB;193,3
+2018;GRC;Grece;XDC;Monnaie nationale;360045,2
+2018;GRC;Grece;PT_B1GQ;Pourcentage du PIB;199,3
+2019;GRC;Grece;PT_B1GQ;Pourcentage du PIB;194,1
+2019;GRC;Grece;XDC;Monnaie nationale;359375,2
+2020;GRC;Grece;PT_B1GQ;Pourcentage du PIB;223,6
+2020;GRC;Grece;XDC;Monnaie nationale;374626,4
+2021;GRC;Grece;XDC;Monnaie nationale;393931,2
+2021;GRC;Grece;PT_B1GQ;Pourcentage du PIB;213,4
+2022;GRC;Grece;XDC;Monnaie nationale;400924,2
+2022;GRC;Grece;PT_B1GQ;Pourcentage du PIB;193,7
+2023;GRC;Grece;XDC;Monnaie nationale;402569,2
+2023;GRC;Grece;PT_B1GQ;Pourcentage du PIB;179,2
+2024;GRC;Grece;XDC;Monnaie nationale;399098,2
+2024;GRC;Grece;PT_B1GQ;Pourcentage du PIB;168,6
 2002;IRL;Irlande;PT_B1GQ;Pourcentage du PIB;33,1
 2002;IRL;Irlande;XDC;Monnaie nationale;45017,9
 2003;IRL;Irlande;PT_B1GQ;Pourcentage du PIB;31,9
@@ -643,41 +643,87 @@ annee;cde_pays;pays;cde_unite;unite;valeur_mesuree
 2023;PRT;Portugal;PT_B1GQ;Pourcentage du PIB;104,5
 2024;PRT;Portugal;PT_B1GQ;Pourcentage du PIB;99,7
 2024;PRT;Portugal;XDC;Monnaie nationale;288960,2
-2006;SVK;République slovaque;XDC;Monnaie nationale;20672,3
-2006;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;36,7
-2007;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;36
-2007;SVK;République slovaque;XDC;Monnaie nationale;22737,6
-2008;SVK;République slovaque;XDC;Monnaie nationale;23859,8
-2008;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;34,8
-2009;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;44,5
-2009;SVK;République slovaque;XDC;Monnaie nationale;28501,1
-2010;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;48,4
-2010;SVK;République slovaque;XDC;Monnaie nationale;33283,3
-2011;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;50,3
-2011;SVK;République slovaque;XDC;Monnaie nationale;36004,8
-2012;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;59,5
-2012;SVK;République slovaque;XDC;Monnaie nationale;43897,5
-2013;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;59,3
-2013;SVK;République slovaque;XDC;Monnaie nationale;44242
-2014;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;58,6
-2014;SVK;République slovaque;XDC;Monnaie nationale;44857,9
-2015;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;57,2
-2015;SVK;République slovaque;XDC;Monnaie nationale;45939,3
-2016;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;58,1
-2016;SVK;République slovaque;XDC;Monnaie nationale;47445,6
-2017;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;56,6
-2017;SVK;République slovaque;XDC;Monnaie nationale;48049,3
-2018;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;55
-2018;SVK;République slovaque;XDC;Monnaie nationale;49657,2
-2019;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;53,6
-2019;SVK;République slovaque;XDC;Monnaie nationale;50661,9
-2020;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;64,6
-2020;SVK;République slovaque;XDC;Monnaie nationale;60901
-2021;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;65,9
-2021;SVK;République slovaque;XDC;Monnaie nationale;67132,5
-2022;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;65,7
-2022;SVK;République slovaque;XDC;Monnaie nationale;72261,6
-2023;SVK;République slovaque;XDC;Monnaie nationale;76384,9
-2023;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;61,8
-2024;SVK;République slovaque;XDC;Monnaie nationale;84530,5
-2024;SVK;République slovaque;PT_B1GQ;Pourcentage du PIB;64,9
+2006;SVK;Republique slovaque;XDC;Monnaie nationale;20672,3
+2006;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;36,7
+2007;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;36
+2007;SVK;Republique slovaque;XDC;Monnaie nationale;22737,6
+2008;SVK;Republique slovaque;XDC;Monnaie nationale;23859,8
+2008;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;34,8
+2009;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;44,5
+2009;SVK;Republique slovaque;XDC;Monnaie nationale;28501,1
+2010;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;48,4
+2010;SVK;Republique slovaque;XDC;Monnaie nationale;33283,3
+2011;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;50,3
+2011;SVK;Republique slovaque;XDC;Monnaie nationale;36004,8
+2012;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;59,5
+2012;SVK;Republique slovaque;XDC;Monnaie nationale;43897,5
+2013;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;59,3
+2013;SVK;Republique slovaque;XDC;Monnaie nationale;44242
+2014;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;58,6
+2014;SVK;Republique slovaque;XDC;Monnaie nationale;44857,9
+2015;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;57,2
+2015;SVK;Republique slovaque;XDC;Monnaie nationale;45939,3
+2016;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;58,1
+2016;SVK;Republique slovaque;XDC;Monnaie nationale;47445,6
+2017;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;56,6
+2017;SVK;Republique slovaque;XDC;Monnaie nationale;48049,3
+2018;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;55
+2018;SVK;Republique slovaque;XDC;Monnaie nationale;49657,2
+2019;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;53,6
+2019;SVK;Republique slovaque;XDC;Monnaie nationale;50661,9
+2020;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;64,6
+2020;SVK;Republique slovaque;XDC;Monnaie nationale;60901
+2021;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;65,9
+2021;SVK;Republique slovaque;XDC;Monnaie nationale;67132,5
+2022;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;65,7
+2022;SVK;Republique slovaque;XDC;Monnaie nationale;72261,6
+2023;SVK;Republique slovaque;XDC;Monnaie nationale;76384,9
+2023;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;61,8
+2024;SVK;Republique slovaque;XDC;Monnaie nationale;84530,5
+2024;SVK;Republique slovaque;PT_B1GQ;Pourcentage du PIB;64,9
+2002;GLB;Global (Europe);XDC;Monnaie nationale;5451346,3
+2002;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;54,9
+2003;GLB;Global (Europe);XDC;Monnaie nationale;5723341
+2003;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;57,3
+2004;GLB;Global (Europe);XDC;Monnaie nationale;5969382,9
+2004;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;58,4
+2005;GLB;Global (Europe);XDC;Monnaie nationale;6246461,4
+2005;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;60,1
+2006;GLB;Global (Europe);XDC;Monnaie nationale;6438080,1
+2006;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;59,9
+2007;GLB;Global (Europe);XDC;Monnaie nationale;6589288,9
+2007;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;59,6
+2008;GLB;Global (Europe);XDC;Monnaie nationale;7099918
+2008;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;63,9
+2009;GLB;Global (Europe);XDC;Monnaie nationale;7837868,6
+2009;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;73,8
+2010;GLB;Global (Europe);XDC;Monnaie nationale;8607776,2
+2010;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;79,4
+2011;GLB;Global (Europe);XDC;Monnaie nationale;9074488,3
+2011;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;82,2
+2012;GLB;Global (Europe);XDC;Monnaie nationale;9561387,2
+2012;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;87,4
+2013;GLB;Global (Europe);XDC;Monnaie nationale;9908046,5
+2013;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;90,7
+2014;GLB;Global (Europe);XDC;Monnaie nationale;10173258,6
+2014;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;91,8
+2015;GLB;Global (Europe);XDC;Monnaie nationale;10319551,5
+2015;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;91,1
+2016;GLB;Global (Europe);XDC;Monnaie nationale;10478589,4
+2016;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;90,9
+2017;GLB;Global (Europe);XDC;Monnaie nationale;10622095,2
+2017;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;89,9
+2018;GLB;Global (Europe);XDC;Monnaie nationale;10745408,6
+2018;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;89,3
+2019;GLB;Global (Europe);XDC;Monnaie nationale;10800339,3
+2019;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;88,4
+2020;GLB;Global (Europe);XDC;Monnaie nationale;11887052,9
+2020;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;103,5
+2021;GLB;Global (Europe);XDC;Monnaie nationale;12562953,3
+2021;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;102,9
+2022;GLB;Global (Europe);XDC;Monnaie nationale;13040083,5
+2022;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;103,0
+2023;GLB;Global (Europe);XDC;Monnaie nationale;13506956,6
+2023;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;106,4
+2024;GLB;Global (Europe);XDC;Monnaie nationale;14002913,5
+2024;GLB;Global (Europe);PT_B1GQ;Pourcentage du PIB;109,3
