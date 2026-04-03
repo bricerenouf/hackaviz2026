@@ -1143,8 +1143,12 @@ function mettreAJourTexteDynamique(selection) {
         htmlTexte += `<b>Pression démographique et stratégie budgétaire</b><br>`;
         if (budgetEns > 0 && pop2023 > 0) {
             const popMillions = (pop2023 / 1000000).toFixed(1);
-            htmlTexte += `En 2023, la <b>${selection}</b> abrite une population de ${popMillions} millions d'habitants, s'inscrivant dans un pays <b>${evolutionPopDetail}</b>. `;
             
+            
+            const article = obtenirArticle(selection);
+            const verbe = (selection === "Pays-Bas") ? "abritent" : "abrite";
+            
+            htmlTexte += `En 2023, ${article}<b>${selection}</b> ${verbe} une population de ${popMillions} millions d'habitants, s'inscrivant dans un pays <b>${evolutionPopDetail}</b>. `;
             if (tendancePop === "hausse") htmlTexte += `Pour absorber l'afflux constant de nouveaux élèves, `;
             else if (tendancePop === "baisse") htmlTexte += `Malgré un vivier étudiant qui tend à se réduire, `;
             else htmlTexte += `Pour maintenir ses infrastructures de façon stable, `;
@@ -1814,8 +1818,23 @@ function mettreAJourTextePage3(annee) {
         const paysMaxRatio = paysTriesParRatio[0];
         const paysMinRatio = paysTriesParRatio[paysTriesParRatio.length - 1];
 
-        // --- RÉDACTION DU TEXTE ---
+        // --- NOUVEAU : PETITS HELPERS GRAMMATICAUX ---
+        const formatSujet = (p) => {
+            const art = obtenirArticle(p);
+            return (art.charAt(0).toUpperCase() + art.slice(1)) + p; // Ex: "La France", "L'Allemagne"
+        };
         
+        const formatDe = (p) => {
+            const art = obtenirArticle(p);
+            if (art === "le ") return "du " + p;
+            if (art === "les ") return "des " + p;
+            if (art === "l'") return "de l'" + p;
+            if (art === "la ") return "de la " + p;
+            if (art === "") return "de " + p; 
+            return "de la " + p; 
+        };
+
+        // --- RÉDACTION DU TEXTE ---
         let htmlTexte = `<div style="color: #334155; font-size: 14px; line-height: 1.6; display: flex; flex-direction: column; height: 100%; min-height: 100%;">`;
 
         // --- BLOC DE TEXTE PRINCIPAL ---
@@ -1824,16 +1843,16 @@ function mettreAJourTextePage3(annee) {
         // Paragraphe 1 : Vue Globale 
         htmlTexte += `<div style="margin-bottom: 65px;">`;
         htmlTexte += `<b>Vue globale de l'économie européenne en ${annee}</b><br>`;
-        htmlTexte += `En <b>${annee}</b>, le graphique à bulles met en lumière les disparités vertigineuses qui traversent l'Europe. Pour une population analysée de <b>${(totalPop / 1000000).toFixed(0)} millions d'habitants</b>, la moyenne européenne se situe autour de <b>${pibMoyenHab.toLocaleString("fr-FR", {maximumFractionDigits:0})} €</b> de richesse produite (PIB) par personne, dont environ <b style="color:#0CBBCC;">${ratioDepenseMoyen.toFixed(1)}%</b> (soit <b>${depMoyenneHab.toLocaleString("fr-FR", {maximumFractionDigits:0})} €</b>) sont absorbés par la dépense publique de l'État. L'écart est frappant : un habitant de <b>${paysLePlusRiche.pays}</b> évolue dans une économie générant <b>${paysLePlusRiche.pibHabitant.toLocaleString("fr-FR", {maximumFractionDigits:0})} €</b>, tandis qu'à l'autre extrême du continent, <b>${paysLeMoinsRiche.pays}</b> se situe à seulement <b>${paysLeMoinsRiche.pibHabitant.toLocaleString("fr-FR", {maximumFractionDigits:0})} €</b> par habitant.`;
+        htmlTexte += `En <b>${annee}</b>, le graphique à bulles met en lumière les disparités vertigineuses qui traversent l'Europe. Pour une population analysée de <b>${(totalPop / 1000000).toFixed(0)} millions d'habitants</b>, la moyenne européenne se situe autour de <b>${pibMoyenHab.toLocaleString("fr-FR", {maximumFractionDigits:0})} €</b> de richesse produite (PIB) par personne, dont environ <b style="color:#0CBBCC;">${ratioDepenseMoyen.toFixed(1)}%</b> (soit <b>${depMoyenneHab.toLocaleString("fr-FR", {maximumFractionDigits:0})} €</b>) sont absorbés par la dépense publique de l'État. L'écart est frappant : un habitant <b>${formatDe(paysLePlusRiche.pays)}</b> évolue dans une économie générant <b>${paysLePlusRiche.pibHabitant.toLocaleString("fr-FR", {maximumFractionDigits:0})} €</b>, tandis qu'à l'autre extrême du continent, le PIB moyen <b>${formatDe(paysLeMoinsRiche.pays)}</b> se situe à seulement <b>${paysLeMoinsRiche.pibHabitant.toLocaleString("fr-FR", {maximumFractionDigits:0})} €</b> par habitant.`;
         htmlTexte += `</div>`;
 
-        // Paragraphe 2 : Modèles économiques
+        // Paragraphe 2 : Modèles économiques 
         htmlTexte += `<div style="margin-bottom: 65px;">`;
         htmlTexte += `<b>Fractures régionales et modèles d'États</b><br>`;
-        htmlTexte += `La disposition des bulles ne doit rien au hasard : elle dessine les grands modèles européens. En haut à droite, les pays <b>Nordiques et Continentaux</b> assument un État-providence très lourd. <b>${paysMaxRatio.pays}</b> en est le meilleur exemple, réinvestissant <b style="color:#0CBBCC;">${paysMaxRatio.ratioDepense.toFixed(1)}%</b> de son PIB dans ses services publics. À l'inverse, dans le bloc de l'<b>Est</b> et du <b>Sud</b>, l'ampleur de l'État est plus contenue : <b>${paysMinRatio.pays}</b> ferme la marche avec un ratio de dépense publique de seulement <b style="color:#0CBBCC;">${paysMinRatio.ratioDepense.toFixed(1)}%</b>.`;
+        htmlTexte += `La disposition des bulles ne doit rien au hasard : elle dessine les grands modèles européens. En haut à droite, les pays <b>Nordiques et Continentaux</b> assument un État-providence très lourd. <b>${formatSujet(paysMaxRatio.pays)}</b> en est le meilleur exemple, réinvestissant <b style="color:#0CBBCC;">${paysMaxRatio.ratioDepense.toFixed(1)}%</b> de son PIB dans ses services publics. À l'inverse, dans le bloc de l'<b>Est</b> et du <b>Sud</b>, l'ampleur de l'État est plus contenue : <b>${formatSujet(paysMinRatio.pays)}</b> ferme la marche avec un ratio de dépense publique de seulement <b style="color:#0CBBCC;">${paysMinRatio.ratioDepense.toFixed(1)}%</b>.`;
         htmlTexte += `</div>`;
 
-        // Paragraphe 3 : Bilan Global du Dashboard
+        // Paragraphe 3 : Bilan Global
         htmlTexte += `<div style="margin-bottom: 25px;">`;
         htmlTexte += `<b>Bilan : Ce que l'argent raconte de nous</b><br>`;
         htmlTexte += `<i>En bref ? Un budget public, ce n'est pas qu'un énorme fichier Excel ennuyeux : c'est le reflet direct d'un choix de société ! Qu'il s'agisse de choyer ses aînés, de booster l'école ou d'assurer la paix sociale, la vraie question n'est pas de savoir qui dépense le plus... mais bien qui transforme le mieux ses euros en bonheur et en réussite pour ses citoyens ! À titre de comparaison, la France illustre d'ailleurs parfaitement ce choix d'un État-providence fort, avec une dépense publique se maintenant historiquement autour des 57 % de son PIB.</i>`;
