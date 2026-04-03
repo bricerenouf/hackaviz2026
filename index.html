@@ -21,18 +21,25 @@
                 </div>
             </header>
 
-            <div class="intro-texte" style="margin-top: -40px; padding-top: 0px;">
-                <p style="margin-top: 0px;">L'Union Européenne est décriée par certains et la Grande-Bretagne s'en est même détachée au début de l'année 2020. A partir de nombreuses sources, nous allons explorer les budgets alloués par les Etats européens et tenter de voir si la France est un bon élève où non. Sur cette première page, les pays sont classés par pourcentage alloué à chaque domaine de dépenses.</p>
+            <div class="intro-texte" style="margin-top: -35px; padding-top: 0px;">
+                <p style="margin-top: 0px;">L'Union Européenne est décriée par certains et la Grande-Bretagne s'en est même détachée au début de l'année 2020. A partir de nombreuses sources, nous allons explorer les budgets alloués par les Etats européens et tenter de voir si la France est un bon élève où non. Sur cette première page, on classe les pays selon leurs choix budgétaires en 2023 : comparez la part de leur budget global, ou bien regardez ce que ça représente concrètement par habitant.</p>
             </div>
 
             <div class="layout-page-1">
                 
             <div class="zone-principale">
                 
-                <div style="width: 100%; max-width: 1200px; text-align: left; margin-top: -60px; margin-bottom: 50px; padding-left: 20px;">
+                <div style="width: 100%; max-width: 1200px; margin-top: -20px; margin-bottom: 50px; padding-left: 20px; padding-right: 20px; display: flex; justify-content: space-between; align-items: center;">
+    
                     <h2 id="titre-categorie-dynamique" style="color: #334155; font-size: 18px; margin: 0;">
                         Catégorie : <span style="color:#0CBBCC;">...</span>
                     </h2>
+
+                    <div style="background: #f1f5f9; border-radius: 8px; padding: 4px; display: flex; gap: 4px; width: 220px;">
+                        <button id="btn-mode-pourcent" class="switch-btn actif">% Budget</button>
+                        <button id="btn-mode-habitant" class="switch-btn">€ / Habitant</button>
+                    </div>
+
                 </div>
                 
                 <div id="grille-pays"></div>
@@ -85,7 +92,7 @@
                         </div>
                         <div class="controle-age">
                             <select id="filtre-pays" class="select-dashboard select-sub-card">
-                                <!--<option value="Global">Global (Europe)</option> -->
+                                
                             </select>
                         </div>
                     </div>
@@ -161,7 +168,7 @@
 
             <div class="header-page-3" style="margin-bottom: 20px; flex-shrink: 0;">
                 <div class="intro-texte" style="margin-bottom: 0;">
-                    <p>Pour terminer notre analyse, nous comparons des données un peu moins concrètes puisque l'on y parle de Produit Intérieur Brut. Une disparité s'opère t-elle entre les pays ? Que peut-on conclure des différents modèles économiques ?   </p>
+                    <p>Pour terminer notre analyse, nous comparons des données un peu moins concrètes puisque l'on y parle de Produit Intérieur Brut. Une disparité s'opère t-elle entre les pays ? Que peut-on conclure des différents modèles économiques ? Faites défiler les années en cliquant sur Lecture et changez la disposition des bulles en choisissant "Modèle économique".</p>
                 </div>
             </div>
 
@@ -170,7 +177,7 @@
                 <div style="width: 45%; flex-shrink: 0; display: flex; flex-direction: column; min-height: 0; margin-top: -30px;">
                     
                     <div class="sub-card" style="width: 350px; margin-bottom: 15px; z-index: 10; padding: 15px; height: auto; flex-shrink: 0;">                
-                        <h4 style="text-align: left; font-size: 11px; margin-bottom: 10px;">Animation</h4>
+                        <h4 style="text-align: center; font-size: 11px; margin-bottom: 10px;">Animation</h4>
                         <div style="margin-bottom: 15px; margin-top: 5px;">
                             <label for="slider-annee" style="font-weight: 600; color: #334155; display: block; margin-bottom: 10px; font-size: 14px;">
                                 Année : <span id="valeur-annee-p3" style="color: #0CBBCC; font-size: 16px;">2023</span>

@@ -121,11 +121,11 @@ header h1 { font-size: 20px; font-weight: 600; }
 
 /* --- TEXTE D'INTRODUCTION --- */
 .intro-texte {
-    max-width: 700px; 
+    max-width: 800px; 
     text-align: center; 
     
     margin-top: -5px; /* <-- L'astuce est ici : on "aspire" le texte vers le haut */
-    margin-bottom: 120px; /* On réduit un peu l'espace sous le texte (c'était 50px) */
+    margin-bottom: 60px; /* On réduit un peu l'espace sous le texte (c'était 50px) */
     
     font-size: 17px; 
     line-height: 1.6; 
@@ -982,4 +982,40 @@ h4 {
     background: #0CBBCC;
     border: none;
     cursor: pointer;
+}
+
+
+/* ========================================== */
+/* --- ADAPTATION POUR ÉCRANS 4K ET +     --- */
+/* ========================================== */
+@media (min-width: 2000px) {
+    /* Page 1 : On élargit la zone globale et la grille */
+    header, .layout-page-1 { 
+        max-width: 2200px; 
+    }
+    #grille-pays { 
+        max-width: 1800px; 
+        gap: 40px 60px; /* On aère un peu plus les pays */
+    }
+    .intro-texte { 
+        font-size: 20px; 
+        max-width: 1000px; 
+    }
+
+    /* Page 2 : On grossit les textes de l'analyse */
+    .titre-section-droite { 
+        font-size: 28px; 
+    }
+    .texte-section-droite { 
+        font-size: 18px; 
+        max-width: 1200px; 
+    }
+    
+    /* Page 3 : On laisse le graphique à bulles respirer */
+    #bubble-chart-container { 
+        max-width: 1400px; 
+    }
+    #texte-dynamique-page3 {
+        font-size: 18px;
+    }
 }

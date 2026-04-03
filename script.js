@@ -29,6 +29,7 @@ let definitionsCategories = {};
 let categorieActuelle = "";
 let pibParPaysEtAnnee = {};
 let competencesParPaysEtAnnee = {};
+let modeCalculPage1 = "pourcentage";
 
 function nettoyerMontant(val) {
     if (!val) return 0;
@@ -349,6 +350,17 @@ function dessinerGrille(features) {
                     .style("font-size", "11px")
                     .text("Montant N/D");
             }
+
+            const pop2023 = (populationParPays[nomGeo] && populationParPays[nomGeo][2023]) ? populationParPays[nomGeo][2023].total : null;
+            if (pop2023) {
+                tooltip.append("div")
+                    .style("color", "#64748b")
+                    .style("font-size", "11px")
+                    .style("margin-top", "6px")
+                    .style("border-top", "1px dashed #cbd5e1")
+                    .style("padding-top", "4px")
+                    .text("Population : " + (pop2023 / 1000000).toFixed(1) + " M hab.");
+            }
             tooltip.classed("visible", true);
 
             // --- 3. LE PANNEAU FIXE (Détails financiers, en bas à gauche) ---
@@ -421,7 +433,7 @@ function dessinerGrille(features) {
     });
 }
 
-function mettreAJourDonnees(categorie) {
+/*function mettreAJourDonnees(categorie) {
 
     d3.select("#titre-categorie-dynamique").html(`Catégorie : <span style="color:#0CBBCC;">${categorie}</span>`);
 
@@ -481,6 +493,107 @@ function mettreAJourDonnees(categorie) {
                 const couleur = echelleCouleur(valeur);
                 div.select("path").attr("fill", couleur).attr("data-color", couleur); 
                 div.select(".pays-valeur").text(valeur.toFixed(1) + " %"); 
+            } else {
+                div.select("path").attr("fill", couleurVide).attr("data-color", couleurVide);
+                div.select(".pays-valeur").text("N/D");
+            }
+            div.transition().delay(rangFinal * 25).duration(400).style("opacity", 1);
+        });
+    });
+}
+    */
+
+function mettreAJourDonnees(categorie) {
+
+    d3.select("#titre-categorie-dynamique").html(`Catégorie : <span style="color:#0CBBCC;">${categorie}</span>`);
+
+    const valeursParPays = {};
+    let toutesLesValeurs = [];
+    let dataPourTri = []; 
+
+    for (let pays in totauxParPays) {
+        let sommeTotalGlobale = 0;
+        let sommeCategorieGlobale = 0;
+        let sommePopGlobale = 0;
+
+        for (let annee in totauxParPays[pays]) {
+            sommeTotalGlobale += totauxParPays[pays][annee];
+        }
+
+        if (categoriesParPays[pays]) {
+            for (let annee in categoriesParPays[pays]) {
+                if (categoriesParPays[pays][annee][categorie] !== undefined) {
+                    sommeCategorieGlobale += categoriesParPays[pays][annee][categorie];
+                    // NOUVEAU : On cumule la population pour calculer la moyenne par habitant
+                    if (populationParPays[pays] && populationParPays[pays][annee]) {
+                        sommePopGlobale += populationParPays[pays][annee].total;
+                    }
+                }
+            }
+        }
+
+        // --- NOUVEAU : LE CHOIX DU CALCUL ---
+        if (modeCalculPage1 === "pourcentage") {
+            if (sommeTotalGlobale > 0) {
+                const pourcentageFinal = (sommeCategorieGlobale / sommeTotalGlobale) * 100;
+                valeursParPays[pays] = pourcentageFinal;
+                toutesLesValeurs.push(pourcentageFinal);
+            }
+        } else if (modeCalculPage1 === "habitant") {
+            if (sommePopGlobale > 0 && sommeCategorieGlobale > 0) {
+                // (M€ * 1 000 000) / Population
+                const parHabitant = (sommeCategorieGlobale * 1000000) / sommePopGlobale;
+                valeursParPays[pays] = parHabitant;
+                toutesLesValeurs.push(parHabitant);
+            }
+        }
+    }
+
+    let echelleCouleur = () => couleurVide;
+    if (toutesLesValeurs.length > 0) {
+        const minVal = d3.min(toutesLesValeurs);
+        const maxVal = d3.max(toutesLesValeurs);
+        echelleCouleur = d3.scaleLinear().domain([minVal, maxVal]).range([couleurMin, couleurMax]);
+        
+        // --- NOUVEAU : On adapte la légende en bas à droite ---
+        if (modeCalculPage1 === "pourcentage") {
+            d3.select("#legende-min").text(minVal.toFixed(1) + " %");
+            d3.select("#legende-max").text(maxVal.toFixed(1) + " %");
+        } else {
+            d3.select("#legende-min").text(minVal.toLocaleString("fr-FR", {maximumFractionDigits:0}) + " €/hab");
+            d3.select("#legende-max").text(maxVal.toLocaleString("fr-FR", {maximumFractionDigits:0}) + " €/hab");
+        }
+    }
+
+    geoData.forEach(d => {
+        const nomGeo = d.properties.NAME;
+        const valTri = valeursParPays[nomGeo] !== undefined ? valeursParPays[nomGeo] : -1;
+        dataPourTri.push({ pays: nomGeo, valeur: valTri });
+    });
+
+    dataPourTri.sort((a, b) => b.valeur - a.valeur);
+    const rangsPays = {};
+    dataPourTri.forEach((d, i) => { rangsPays[d.pays] = i; });
+
+    d3.selectAll(".pays-container").each(function(d) {
+        const div = d3.select(this);
+        const nomGeo = d.properties.NAME; 
+        const valeur = valeursParPays[nomGeo];
+        const rangFinal = rangsPays[nomGeo]; 
+
+        div.transition().duration(200).style("opacity", 0).on("end", function() {
+            div.style("order", rangFinal);
+            if (valeur !== undefined) {
+                const couleur = echelleCouleur(valeur);
+                div.select("path").attr("fill", couleur).attr("data-color", couleur); 
+                
+                // --- NOUVEAU : On adapte l'affichage de la valeur sous le pays ---
+                if (modeCalculPage1 === "pourcentage") {
+                    div.select(".pays-valeur").text(valeur.toFixed(1) + " %"); 
+                } else {
+                    div.select(".pays-valeur").text(valeur.toLocaleString("fr-FR", {maximumFractionDigits:2}) + " €"); 
+                }
+                
             } else {
                 div.select("path").attr("fill", couleurVide).attr("data-color", couleurVide);
                 div.select(".pays-valeur").text("N/D");
@@ -1026,7 +1139,8 @@ function mettreAJourTexteDynamique(selection) {
         // --- 2. EXTRACTION BUDGÉTAIRE ET ÉVOLUTION ---
         const budgetEns = (categoriesParPays[selection] && categoriesParPays[selection][2023]) ? categoriesParPays[selection][2023]["Enseignement"] || 0 : 0;
         const budget2013 = (categoriesParPays[selection] && categoriesParPays[selection][2013]) ? categoriesParPays[selection][2013]["Enseignement"] || 0 : 0;
-        const depHabitant = (budgetEns > 0 && pop2023 > 0) ? ((budgetEns * 1000000) / pop2023).toFixed(0) : "N/D";
+        //const depHabitant = (budgetEns > 0 && pop2023 > 0) ? ((budgetEns * 1000000) / pop2023).toFixed(0) : "N/D";
+        const depHabitant = (budgetEns > 0 && pop2023 > 0) ? ((budgetEns * 1000000) / pop2023).toLocaleString("fr-FR", {minimumFractionDigits: 2, maximumFractionDigits: 2}) : "N/D";
 
         let tendanceBudget = "inconnu";
         let detailTendanceBudget = "";
@@ -1488,10 +1602,11 @@ function dessinerBubbleLandscape(annee) {
     svg.attr("viewBox", `0 0 ${width} ${height}`);
     svg.selectAll(".axes").remove(); 
 
-    // --- SUPPRESSION DE L'ANCIEN TITRE ---
+    
     svg.selectAll(".titre-graph").remove();
+    svg.selectAll(".legende-taille").remove(); 
 
-    // --- DESSIN DU TITRE DANS LE SVG ---
+    
     svg.append("text")
         .attr("class", "titre-graph")
         .attr("x", width / 2) 
@@ -1841,21 +1956,21 @@ function mettreAJourTextePage3(annee) {
         htmlTexte += `<div>`;
 
         // Paragraphe 1 : Vue Globale 
-        htmlTexte += `<div style="margin-bottom: 65px;">`;
+        htmlTexte += `<div style="margin-bottom: 45px;">`;
         htmlTexte += `<b>Vue globale de l'économie européenne en ${annee}</b><br>`;
         htmlTexte += `En <b>${annee}</b>, le graphique à bulles met en lumière les disparités vertigineuses qui traversent l'Europe. Pour une population analysée de <b>${(totalPop / 1000000).toFixed(0)} millions d'habitants</b>, la moyenne européenne se situe autour de <b>${pibMoyenHab.toLocaleString("fr-FR", {maximumFractionDigits:0})} €</b> de richesse produite (PIB) par personne, dont environ <b style="color:#0CBBCC;">${ratioDepenseMoyen.toFixed(1)}%</b> (soit <b>${depMoyenneHab.toLocaleString("fr-FR", {maximumFractionDigits:0})} €</b>) sont absorbés par la dépense publique de l'État. L'écart est frappant : un habitant <b>${formatDe(paysLePlusRiche.pays)}</b> évolue dans une économie générant <b>${paysLePlusRiche.pibHabitant.toLocaleString("fr-FR", {maximumFractionDigits:0})} €</b>, tandis qu'à l'autre extrême du continent, le PIB moyen <b>${formatDe(paysLeMoinsRiche.pays)}</b> se situe à seulement <b>${paysLeMoinsRiche.pibHabitant.toLocaleString("fr-FR", {maximumFractionDigits:0})} €</b> par habitant.`;
         htmlTexte += `</div>`;
 
         // Paragraphe 2 : Modèles économiques 
-        htmlTexte += `<div style="margin-bottom: 65px;">`;
+        htmlTexte += `<div style="margin-bottom: 45px;">`;
         htmlTexte += `<b>Fractures régionales et modèles d'États</b><br>`;
         htmlTexte += `La disposition des bulles ne doit rien au hasard : elle dessine les grands modèles européens. En haut à droite, les pays <b>Nordiques et Continentaux</b> assument un État-providence très lourd. <b>${formatSujet(paysMaxRatio.pays)}</b> en est le meilleur exemple, réinvestissant <b style="color:#0CBBCC;">${paysMaxRatio.ratioDepense.toFixed(1)}%</b> de son PIB dans ses services publics. À l'inverse, dans le bloc de l'<b>Est</b> et du <b>Sud</b>, l'ampleur de l'État est plus contenue : <b>${formatSujet(paysMinRatio.pays)}</b> ferme la marche avec un ratio de dépense publique de seulement <b style="color:#0CBBCC;">${paysMinRatio.ratioDepense.toFixed(1)}%</b>.`;
         htmlTexte += `</div>`;
 
         // Paragraphe 3 : Bilan Global
         htmlTexte += `<div style="margin-bottom: 25px;">`;
-        htmlTexte += `<b>Bilan : Ce que l'argent raconte de nous</b><br>`;
-        htmlTexte += `<i>En bref ? Un budget public, ce n'est pas qu'un énorme fichier Excel ennuyeux : c'est le reflet direct d'un choix de société ! Qu'il s'agisse de choyer ses aînés, de booster l'école ou d'assurer la paix sociale, la vraie question n'est pas de savoir qui dépense le plus... mais bien qui transforme le mieux ses euros en bonheur et en réussite pour ses citoyens ! À titre de comparaison, la France illustre d'ailleurs parfaitement ce choix d'un État-providence fort, avec une dépense publique se maintenant historiquement autour des 57 % de son PIB.</i>`;
+        htmlTexte += `<b>Que peut-on conclure de tout ça ?</b><br>`;
+        htmlTexte += `<i>Avec toutes ces informations, on peut sembler un peu perdu. On compare des budgets avec de la qualité de vie ou encore des PIB. Pas facile de s'y retrouver. Ce que l'on peut remarquer c'est que le <b>Luxemboug</b> est clairement au dessus du lot. Sans doute lié à sa force économique. Petit remarque pour l'<b>Irlande</b> qui voit son PIB s'envoler dans les années 2010. Serait-ce dû au tapis rouge déroulé aux <b>GAFAM</b> ?<br>Dans le domaine de l'enseignement, il n'y a pas de solution miracle, avec du budget ou non, les compétences n'évoluent pas toujours dans le bon sense. On remarque quand même que les pays de l'<B>Est</b> sont les bons élèves de l'Europe.<br>Et la <b>France</b> dans tout ça ? Elle semble plutôt dans la moyenne un peu partout.</i>`;
         htmlTexte += `</div>`;
 
         htmlTexte += `</div>`; 
@@ -1863,7 +1978,7 @@ function mettreAJourTextePage3(annee) {
         // --- FOOTER / SIGNATURE ---
         
         htmlTexte += `<div style="margin-top: auto; border-top: 1px solid #e2e8f0; padding-top: 12px; text-align: center; font-size: 11px; color: #94a3b8;">`;
-        htmlTexte += `Réalisé par <b style="color:#64748b;">Brice Renouf</b> dans le cadre du <b style="color:#64748b;">Hackaviz 2026</b> organisé par l'association <b style="color:#64748b;">Toulouse-Dataviz</b>.`;
+        htmlTexte += `Réalisé par <b style="color:#64748b;">Brice RENOUF</b> dans le cadre du <b style="color:#64748b;">Hackaviz 2026</b> organisé par l'association <b style="color:#64748b;">Toulouse-Dataviz</b>.`;
         htmlTexte += `</div>`;
 
         htmlTexte += `</div>`; 
@@ -1876,3 +1991,44 @@ function mettreAJourTextePage3(annee) {
         console.error("Erreur génération texte Page 3 :", error);
     }
 }
+
+
+// --- INTERRUPTEUR DE VUES (PAGE 1) ---
+d3.select("#btn-mode-pourcent").on("click", function() {
+    if (modeCalculPage1 === "pourcentage") return;
+    modeCalculPage1 = "pourcentage";
+    d3.select(this).classed("actif", true);
+    d3.select("#btn-mode-habitant").classed("actif", false);
+    mettreAJourDonnees(categorieActuelle); // On relance le calcul
+});
+
+d3.select("#btn-mode-habitant").on("click", function() {
+    if (modeCalculPage1 === "habitant") return;
+    modeCalculPage1 = "habitant";
+    d3.select(this).classed("actif", true);
+    d3.select("#btn-mode-pourcent").classed("actif", false);
+    mettreAJourDonnees(categorieActuelle); // On relance le calcul
+});
+
+// ==========================================
+// --- GESTION DU REDIMENSIONNEMENT ÉCRAN ---
+// ==========================================
+let resizeTimer;
+window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    
+    // On attend un quart de seconde après la fin du redimensionnement pour ne pas faire bugger le navigateur
+    resizeTimer = setTimeout(function() {
+        
+        // On redessine le graphique des compétences (Page 2) s'il y a un pays sélectionné
+        const paysSelectionne = d3.select("#filtre-pays").property("value");
+        if (paysSelectionne && paysSelectionne !== "") {
+            dessinerGraphiqueCompetences(paysSelectionne);
+        }
+        
+        // On redessine le graphique à bulles (Page 3)
+        const anneeEnCours = parseInt(d3.select("#slider-annee").property("value")) || 2023;
+        dessinerBubbleLandscape(anneeEnCours);
+        
+    }, 250);
+});
