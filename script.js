@@ -1964,7 +1964,7 @@ function mettreAJourTextePage3(annee) {
         // Paragraphe 2 : Modèles économiques 
         htmlTexte += `<div style="margin-bottom: 45px;">`;
         htmlTexte += `<b>Fractures régionales et modèles d'États</b><br>`;
-        htmlTexte += `La disposition des bulles ne doit rien au hasard : elle dessine les grands modèles européens. En haut à droite, les pays <b>Nordiques et Continentaux</b> assument un État-providence très lourd. <b>${formatSujet(paysMaxRatio.pays)}</b> en est le meilleur exemple, réinvestissant <b style="color:#0CBBCC;">${paysMaxRatio.ratioDepense.toFixed(1)}%</b> de son PIB dans ses services publics. À l'inverse, dans le bloc de l'<b>Est</b> et du <b>Sud</b>, l'ampleur de l'État est plus contenue : <b>${formatSujet(paysMinRatio.pays)}</b> ferme la marche avec un ratio de dépense publique de seulement <b style="color:#0CBBCC;">${paysMinRatio.ratioDepense.toFixed(1)}%</b>.`;
+        htmlTexte += `La disposition des bulles ne doit rien au hasard : elle dessine les grands modèles européens. En haut à droite, les pays <b>Nordiques et Continentaux</b> assument un État-providence très lourd. <b>${formatSujet(paysMaxRatio.pays)}</b> en est le meilleur exemple, réinvestissant <b style="color:#0CBBCC;">${paysMaxRatio.ratioDepense.toFixed(1)}%</b> de son PIB dans ses services publics. À l'inverse, dans le bloc de l'<b>Est</b> et du <b>Sud</b>, l'ampleur de l'État est plus contenue. <b>${formatSujet(paysMinRatio.pays)}</b> ferme la marche avec un ratio de dépense publique de seulement <b style="color:#0CBBCC;">${paysMinRatio.ratioDepense.toFixed(1)}%</b>.`;
         htmlTexte += `</div>`;
 
         // Paragraphe 3 : Bilan Global
