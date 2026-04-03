@@ -1,0 +1,985 @@
+/* ========================================== */
+/* --- FOND BLEU FIXE EN HAUT DE PAGE     --- */
+/* ========================================== */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    
+    /* Magie du responsive : 22% de la hauteur de l'écran */
+    height: var(--hauteur-bleu);
+    
+    /* Sécurités pour que ça ne soit ni trop petit sur mobile, ni trop grand sur TV */
+    min-height: 190px; 
+    max-height: 240px; 
+    
+    background-color: #0CBBCC;
+    z-index: -1; 
+    
+}
+
+/* --- LISIBILITÉ SUR LE FOND BLEU (PAGE 1) --- */
+header h1, 
+.intro-texte p {
+    color: #ffffff !important; 
+}
+
+/* On force les options du menu déroulant à rester sombres quand on clique dessus */
+select#filtre-donnees option {
+    color: var(--texte-principal); 
+}
+
+/* ========================================== */
+/* --- VARIABLES ET BASES                 --- */
+/* ========================================== */
+:root {
+    --fond-principal: #f8fafc;
+    --texte-principal: #334155;
+    --texte-secondaire: #64748b;
+    --blanc-transp: rgba(255, 255, 255, 0.7);
+    --hauteur-bleu: clamp(190px, 22vh, 240px);
+}
+
+/* 1. On active l'aimant vertical sur tout le site */
+html {
+    scroll-snap-type: y proximity;
+}
+
+/* 2. On dit à chaque section de s'aimanter par le HAUT (start) */
+.page {
+    scroll-snap-align: start;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    border: none !important;
+    outline: none;
+    box-shadow: none !important;
+}
+
+body {
+    background-color: var(--fond-principal);
+    color: var(--texte-principal);
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+/* ========================================== */
+/* --- PAGE 1 : GRILLE ET CARTES          --- */
+/* ========================================== */
+.page {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+header {
+    width: 100%;
+    max-width: 1400px;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+#logo-titre {
+    max-height: 120px; /* Ajuste cette valeur selon la taille désirée ! */
+    width: auto;
+    display: block;
+    margin-bottom: -100px; /* Pousse l'image vers le bas sans bouger le texte */
+    position: relative;
+    z-index: 10; /* Garde le logo au premier plan */
+    margin-left: -160px;
+}
+
+header h1 { font-size: 20px; font-weight: 600; }
+
+/* --- LOGO UNION EUROPÉENNE --- */
+#logo-ue {
+    position: absolute; /* <-- L'astuce est ici : l'image ne prend plus de place physique */
+    top: 20px;          /* On la cale en haut */
+    right: 80px;        /* On la cale à droite (alignée avec les marges de la page) */
+    height: 150px;       /* Un poil plus petite pour l'élégance */
+    width: auto;
+    opacity: 1; 
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); 
+    z-index: 10;        /* On s'assure qu'elle passe par-dessus le reste */
+}
+
+.header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+
+#legende { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--texte-secondaire); }
+.barre-couleur { width: 120px; height: 8px; border-radius: 4px; background: linear-gradient(to right, #e2e8f0, #475569); }
+
+/* --- TEXTE D'INTRODUCTION --- */
+.intro-texte {
+    max-width: 700px; 
+    text-align: center; 
+    
+    margin-top: -5px; /* <-- L'astuce est ici : on "aspire" le texte vers le haut */
+    margin-bottom: 120px; /* On réduit un peu l'espace sous le texte (c'était 50px) */
+    
+    font-size: 17px; 
+    line-height: 1.6; 
+}
+
+#grille-pays {
+    display: flex;
+    flex-wrap: wrap; /* MAGIE : Permet aux pays de passer à la ligne tout seuls */
+    justify-content: center;
+    gap: 30px 40px; /* Espace vertical / horizontal entre les pays */
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* ========================================== */
+/* --- NOUVEAU LAYOUT PAGE 1 (AVEC SIDEBAR) - */
+/* ========================================== */
+.layout-page-1 {
+    display: flex;
+    width: 100%;
+    max-width: 1400px;
+    gap: 40px;
+    align-items: stretch; /* Essentiel : les deux colonnes font la même hauteur */
+    flex: 1; 
+    position: relative;
+}
+
+/* --- TEXTE INDICATIF BAS DE PAGE 1 --- */
+.indication-clic {
+    text-align: center;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--texte-secondaire);
+    
+    /* --- MODIFICATION ICI : On le remonte vers la grille/filtres --- */
+    margin-top: -15px; /* Marge négative pour l'aspirer vers le haut */
+    margin-bottom: 25px; /* On garde un peu d'espace avant la page 2 */
+    
+    width: 100%;
+    position: relative; /* Sécurité pour qu'il passe au-dessus des marges */
+    z-index: 5; /* Sécurité pour qu'il reste cliquable s'il chevauche quelque chose */
+}
+
+.zone-principale {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Zone des filtres : alignée avec le haut de la grille */
+.zone-filtres {
+    width: 250px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.zone-filtres h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--texte-secondaire);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    padding-left: 10px;
+}
+
+/* ========================================== */
+/* --- PANNEAU LATÉRAL COULISSANT (PAGE 1)--- */
+/* ========================================== */
+#panneau-lateral {
+    position: fixed;
+    right: -280px; /* Caché hors de l'écran par défaut */
+    top: 25%;
+    width: 280px;
+    background-color: #ffffff;
+    border-radius: 15px 0 0 15px;
+    box-shadow: -4px 4px 20px rgba(0,0,0,0.08);
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    padding: 0;
+}
+
+#panneau-lateral.masque-scroll {
+    opacity: 0;
+    pointer-events: none; /* Empêche de cliquer sur le bouton invisible */
+}
+
+#panneau-lateral.ouvert {
+    right: 0; /* Fait glisser le panneau dans l'écran */
+}
+
+.contenu-panneau {
+    padding: 20px;
+    width: 100%;
+    max-height: 60vh; 
+    overflow-y: auto; /* Permet de scroller si l'écran est petit */
+}
+
+/* Le fameux bouton vertical */
+.btn-vertical {
+    position: absolute;
+    left: -40px; /* Le fait dépasser à gauche du panneau */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 90px;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1 !important;
+    border-right: none !important; /* Fusionne visuellement avec le panneau */
+    border-radius: 12px 0 0 12px;
+    box-shadow: -4px 0px 10px rgba(0,0,0,0.05) !important;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-vertical .fleche {
+    font-size: 18px;
+    color: #0CBBCC;
+    transition: transform 0.4s ease;
+}
+
+/* Tourne la flèche vers la droite quand le panneau est ouvert */
+#panneau-lateral.ouvert .btn-vertical .fleche {
+    transform: rotate(180deg);
+}
+
+/* On s'assure que la liste s'affiche normalement dans le panneau */
+#liste-filtres {
+    display: flex;
+    flex-direction: column;
+    gap: 4px; 
+    max-height: none !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+}
+
+/* Fait pivoter la flèche quand c'est ouvert */
+.btn-tiroir.ouvert .chevron {
+    transform: rotate(180deg); 
+}
+
+/* Le conteneur de la liste qui va s'ouvrir/se fermer */
+#liste-filtres {
+    display: flex;
+    flex-direction: column;
+    gap: 4px; 
+    
+    /* Magie de l'animation du tiroir : */
+    max-height: 0; 
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out, padding 0.3s ease;
+}
+
+#liste-filtres.ouvert {
+    max-height: 600px; /* S'étend pour laisser la place aux filtres */
+    opacity: 1;
+    padding-bottom: 15px;
+}
+
+/* --- LÉGENDE FLOTTANTE (PAGE 1) --- */
+#conteneur-legende {
+    position: absolute; /* Sort du flux normal pour flotter */
+    bottom: 0px;      /* On la cale tout en bas */
+    right: -100px;        /* On la cale à droite de l'écran */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Aligne le texte sur la droite */
+    gap: 4px;
+    z-index: 5;         /* S'assure qu'elle soit bien visible */
+}
+
+.titre-legende {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--texte-secondaire);
+    letter-spacing: 0.5px;
+    margin-right: 5px; /* Aligne légèrement avec la barre */
+}
+
+#legende {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--texte-principal) !important; 
+}
+.barre-couleur {
+    width: 100px; 
+    height: 6px; 
+    border-radius: 3px;
+    background: linear-gradient(to right, #e2e8f0, #475569);
+}
+
+/* --- DESIGN DES BOUTONS CATÉGORIES --- */
+.filtre-item {
+    padding: 6px 12px; 
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 8px;
+    border: 1px solid transparent; 
+    color: var(--texte-secondaire);
+    transition: all 0.2s ease;
+    opacity: 0.5; 
+}
+
+.filtre-item:hover {
+    opacity: 0.8;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.filtre-item.actif {
+    opacity: 1; 
+    color: var(--texte-principal);
+    border: 1px solid #0CBBCC !important; 
+    background-color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03) !important;
+}
+
+/* Positionnement de la légende tout en bas à droite */
+#legende {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--texte-secondaire);
+    justify-content: flex-end; /* Aligné à droite */
+    padding-top: 20px; /* Un peu d'air au-dessus */
+}
+
+.barre-couleur {
+    width: 100px; /* Légèrement réduit pour compacter */
+    height: 6px; /* Plus fin */
+    border-radius: 3px;
+    background: linear-gradient(to right, #e2e8f0, #475569);
+}
+
+/* Ajustement responsive pour petits écrans (tablette/mobile) */
+@media (max-width: 1000px) {
+    .layout-page-1 { flex-direction: column; }
+    .zone-filtres { width: 100%; padding-top: 0; }
+    #liste-filtres { flex-direction: row; flex-wrap: wrap; }
+}
+
+.ligne-pays { display: flex; justify-content: center; gap: 30px; }
+.pays-container { display: flex; flex-direction: column; align-items: center; width: 110px; cursor: pointer; }
+.pays-svg { width: 100px; height: 100px; transition: transform 0.2s; }
+.pays-container:hover .pays-svg { transform: scale(1.1); }
+.pays-nom { font-size: 11px; font-weight: 600; margin-top: 8px; text-align: center; }
+.pays-valeur { font-size: 11px; color: var(--texte-secondaire); }
+
+/* --- NOUVEAU GRAPHIQUE SIMPLE DANS L'INFOBULLE --- */
+.simple-line-chart path {
+    fill: none;
+    stroke: #64748b; 
+    stroke-width: 2.5px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.chart-point {
+    transition: r 0.2s ease, fill 0.2s ease; 
+}
+
+/* --- PANNEAU DE DÉTAILS AU SURVOL (EN BAS À GAUCHE DE L'ÉCRAN) --- */
+#details-hover-container {
+    position: fixed; /* MAGIE : se repère par rapport à l'écran, pas au reste du site */
+    bottom: 30px;    /* À 30px du bas de l'écran */
+    left: 30px;      /* À 30px du bord gauche de l'écran */
+    width: 260px;
+    
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    
+    z-index: 1000; /* On s'assure qu'il passe au-dessus de tout le reste */
+    pointer-events: none; 
+    
+    /* Animation qui le fait glisser depuis la gauche */
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.2s ease-out;
+}
+
+#details-hover-container.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ========================================== */
+/* --- PAGE 2 : DASHBOARD (3 COLONNES)    --- */
+/* ========================================== */
+#page-2 {
+    height: 100vh; /* Verrouille la hauteur à un écran */
+    width: 100%;
+    overflow: hidden; 
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.header-page-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0px; /* Suppression du gap */
+    margin-bottom: 5px; /* Réduit de 20px à 5px */
+    flex-shrink: 0;
+}
+
+.nouveau-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+    margin-top: -70px; /* <-- MAGIE : fait remonter tout le dashboard de 20 pixels */
+}
+#titre-page-2 { font-size: 22px; font-weight: 600; color: var(--texte-principal); }
+
+.select-dashboard {
+    background-color: transparent;
+    border: 1px solid #cbd5e1 !important;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* --- COLONNE GAUCHE (Exactement 25% de large, 50% de haut) --- */
+.colonne-gauche-compacte {
+    flex: 0 0 25%; /* Force la largeur à 1/4 (25%) */
+    height: 100%; /* S'arrête exactement à la moitié de la page ! */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espace entre démographie et finance */
+}
+
+/* La ligne qui met Sexe et Âge côte à côte */
+.row-demographie {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    flex: 1; /* Prend la moitié de la hauteur de la colonne gauche */
+    min-height: 140px;
+}
+
+.card-sexe, .card-age {
+    flex: 1; /* Se partagent l'espace : 50% chacun de la row */
+    padding: 10px; /* Padding légèrement réduit car les boîtes sont petites */
+}
+
+/* Le graphique finance prend le reste de la colonne gauche */
+.card-finance {
+    flex: 1; 
+    padding: 10px;
+}
+
+/* --- SUNBURST CHART (Répartition des dépenses) --- */
+.card-repartition {
+    width: 100%;
+    flex: 1; /* Prend l'espace restant sans pousser la page */
+    min-height: 380px; /* Hauteur minimale très petite */
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sunburst-chart {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- COLONNE CENTRE (50% de largeur) --- */
+/* --- COLONNE CENTRE (Contenu texte) --- */
+.colonne-centre {
+    flex: 1; /* Prend tout l'espace restant à droite des cadres */
+    padding-left: 40px; /* Crée un bel espace pour ne pas coller aux graphiques */
+    padding-top: 200px;   /* S'aligne parfaitement avec le haut de tes cadres Sexe/Âge */
+    padding-right: 0px; /* Évite que le texte aille cogner complètement à droite */
+    display: flex;
+    flex-direction: column;
+    z-index: 5; /* Passe sous la carte de l'Europe si l'écran est petit */
+}
+
+.titre-section-droite {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--texte-principal);
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    /* Petite ligne décorative en dessous du titre rappelant ton fond bleu */
+    border-bottom: 3px solid #0CBBCC; 
+    display: inline-block;
+    align-self: flex-start; /* Empêche la ligne de faire toute la largeur de l'écran */
+}
+
+.texte-section-droite {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--texte-principal);
+    max-width: 800px; /* Empêche les lignes de texte d'être trop longues (meilleur pour la lecture) */
+}
+
+/* --- COLONNE DROITE (Positionnée absolument pour la carte) --- */
+.colonne-carte-droite {
+    position: absolute;
+    top: 20px;   /* Aligné avec le padding haut de la page 2 */
+    right: 40px; /* Aligné avec le padding droit de la page 2 */
+    width: 22%;
+    
+    /* CALCUL PARFAIT : La hauteur du bleu, moins l'espace vide du haut (20px) */
+    height: calc(var(--hauteur-bleu) - 20px); 
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.card-pays {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- DESIGN DES CARTES (Fond blanc pour Sexe, Âge, Finance) --- */
+.sub-card {
+    /* NOUVEAU : Blanc avec 85% d'opacité (tu peux changer 0.85 à 0.7 pour plus de transparence) */
+    background-color: rgba(255, 255, 255, 0.85) !important; 
+    
+    /* BONUS UX : Un petit effet de flou pour le "verre dépoli" */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    
+    border-radius: 8px;
+    padding: 15px;
+    
+    /* On rend aussi la bordure légèrement transparente pour que ça fonde bien */
+    /*border: 1px solid rgba(203, 213, 225, 0.5) !important; */
+    border: none !important;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important; 
+    
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+h4 {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--texte-secondaire);
+    letter-spacing: 1px;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.donut-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.legende-graph {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+/* ========================================== */
+/* --- INFOBULLE (TOOLTIP) ORIGINALE      --- */
+/* ========================================== */
+.tooltip {
+    position: absolute;
+    background-color: #ffffff !important;
+    border: 1px solid #e2e8f0 !important; 
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08) !important;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    z-index: 2000;
+    display: flex; flex-direction: column; align-items: center;
+}
+
+.tooltip.visible { opacity: 1; }
+.tooltip-titre { font-size: 13px; font-weight: 600; margin-bottom: 5px; color: var(--texte-principal); }
+.tooltip-valeur { font-size: 11px; color: var(--texte-secondaire); margin-bottom: 8px; }
+
+/* Les styles spécifiques de l'ancienne sparkline */
+.sparkline-path { fill: none; stroke: #64748b; stroke-width: 2.5px; stroke-linecap: round; stroke-linejoin: round; }
+.sparkline-axis text { font-size: 9px; fill: #94a3b8; }
+
+.apparition-pays {
+    animation: deflouteZoom 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes deflouteZoom {
+    0% { filter: blur(10px); transform: scale(0.7); opacity: 0; }
+    100% { filter: blur(0); transform: scale(1); opacity: 1; }
+}
+
+/* --- BOUTON REMONTER --- */
+#btn-remonter {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 40px;
+    height: 40px;
+    background: #0CBBCC;
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* MODIFICATIONS ICI */
+    opacity: 0;
+    pointer-events: none; /* Le bouton est "fantôme" (non cliquable/survolable) */
+    transform: translateY(20px); /* Petit bonus : il part un peu vers le bas */
+    
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+#btn-remonter.visible { 
+    opacity: 0.7; 
+    pointer-events: auto; /* Il redevient solide et cliquable ! */
+    transform: translateY(0); /* Il remonte à sa place */
+}
+
+#btn-remonter.visible:hover { 
+    opacity: 1; 
+}
+
+
+/* --- BOUTON DESCENDRE (PAGE 2 -> PAGE 3) --- */
+#btn-descendre {
+    position: absolute; /* S'accroche au bas de la page 2, pas à l'écran ! */
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%); /* Pour le centrer parfaitement au milieu */
+    width: 40px;
+    height: 40px;
+    background: #ffffff;
+    color: #0CBBCC;
+    border: 2px solid #0CBBCC !important;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+    transition: all 0.3s ease;
+    z-index: 100;
+    
+    /* Petite animation qui le fait rebondir doucement pour inciter au clic */
+    animation: rebond 2s infinite; 
+}
+
+#btn-descendre:hover {
+    background: #0CBBCC;
+    color: #ffffff;
+    animation: none; /* On arrête le rebond au survol */
+    transform: translateX(-50%) scale(1.1);
+}
+
+@keyframes rebond {
+    0%, 20%, 50%, 80%, 100% { bottom: 20px; }
+    40% { bottom: 30px; }
+    60% { bottom: 25px; }
+}
+
+/* --- BOUTON REMONTER (PAGE 3 -> PAGE 2) --- */
+#btn-remonter-p2 {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 40px;
+    height: 40px;
+    background: #0CBBCC;
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Il est caché par défaut */
+    opacity: 0;
+    pointer-events: none; 
+    transform: translateY(20px); 
+    
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+#btn-remonter-p2.visible { 
+    opacity: 0.7; 
+    pointer-events: auto; 
+    transform: translateY(0); 
+}
+
+#btn-remonter-p2.visible:hover { 
+    opacity: 1; 
+}
+
+/* ========================================== */
+/* --- RESPONSIVE                         --- */
+/* ========================================== */
+@media (max-width: 1100px) {
+    #page-2 { height: auto; overflow: visible; }
+    .nouveau-layout { flex-direction: column; }
+    .colonne-demographie, .colonne-finance, .colonne-carte { flex: none; width: 100%; }
+    .card-sexe, .card-age, .card-finance, .card-pays { height: 300px; }
+}
+
+/* --- LIGNE DE CONTRÔLES (PAGE 2) --- */
+.row-controles {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 5px; /* On remet une marge positive légère au lieu de -5px */
+    align-items: flex-end;
+}
+
+.controle-sexe, .controle-age {
+    flex: 1; /* 50/50, ça force le select à avoir la largeur exacte de la carte Âge ! */
+    display: flex;
+}
+
+.controle-sexe {
+    justify-content: center; /* Centre le texte au-dessus de Sexe */
+    padding-bottom: 8px; /* L'aligne bien avec la hauteur du menu déroulant */
+}
+
+.texte-change-pays {
+    font-style: italic;
+    font-size: 15px;
+    color: #e2e8f0 /*var(--texte-secondaire);*/
+}
+
+.select-sub-card {
+    width: 100%;
+    background-color: #e2e8f0 !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px; /* Un peu arrondi comme les cartes */
+    padding: 8px 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important; /* La même ombre que les cartes */
+    color: var(--texte-principal);
+    font-weight: 500;
+    cursor: pointer;
+    appearance: none; /* Nettoie le style par défaut du navigateur */
+}
+
+/* ========================================== */
+/* --- CARTE EUROPE PAGE 2 (STYLE LOGO)   --- */
+/* ========================================== */
+
+#page-2 {
+    position: relative; /* Indispensable pour que la carte se cale sur cette page */
+}
+
+.colonne-carte-droite {
+    position: absolute;
+    top: 20px;     /* À ajuster selon la position exacte de ton logo page 1 */
+    right: -15px;   /* À ajuster selon la position exacte de ton logo page 1 */
+    width: 350px;  /* Mets ici la MÊME largeur que ton image #logo-ue */
+    height: 150px; /* Mets ici la MÊME hauteur que ton image #logo-ue */
+    z-index: 10;
+}
+
+.card-pays {
+    background: transparent !important; /* Enlève le fond blanc */
+    box-shadow: none !important;        /* Enlève l'ombre */
+    border: none !important;            /* Enlève la bordure */
+    width: 100%;
+    height: 100%;
+    padding: 0 !important;              /* Enlève les marges internes */
+        opacity: 1; 
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); 
+}
+
+
+
+
+/* ========================================== */
+/* --- PAGE 3 : DESIGN DU GRAPHIQUE BUBBLE--- */
+/* ========================================== */
+#bubble-chart-container {
+    width: 100%; 
+    max-width: 900px; 
+    
+    /* --- LA MAGIE EST ICI --- */
+    /* On enlève height: 650px; et on le rend élastique ! */
+    flex-grow: 1; 
+    /*min-height: 500px; /* Empêche le graphique de forcer une hauteur minimale */
+    margin-bottom: 20px; /* Un peu d'air en bas pour ne pas coller au bord de l'écran */
+    
+    margin-top: 5px !important; 
+    align-self: flex-start; 
+    position: relative; 
+    
+    /* Design "Verre dépoli" */
+    background-color: rgba(255, 255, 255, 0.85) !important; 
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 12px; 
+    border: none !important; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important; 
+}    
+
+/* --- Alignement du header Page 3 --- */
+.header-page-3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    
+    /* LA MAGIE EST ICI : On passe en négatif pour aspirer les cadres vers le texte ! */
+    margin-bottom: -50px; 
+    
+    flex-shrink: 0;
+}
+
+/* --- On fait remonter le graphique bubble --- */
+#bubble-chart-container {
+    /* ... tes propriétés existantes ... */
+    margin-top: 5px !important; /* On réduit la marge de 20px à 5px pour remonter le cadre */
+}
+
+/* --- LOGO DECORATIF PAGE 3 --- */
+#logo-ue-p3 {
+    position: absolute; 
+    top: 20px;          /* On l'aligne en haut */
+    right: 80px;        /* On l'aligne à droite comme sur la Page 1 */
+    height: 150px;      /* Même taille que l'original */
+    width: auto;
+    opacity: 1; 
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); 
+    z-index: 10;
+    
+    /* LA MAGIE : Le rend strictement décoratif et non cliquable ! */
+    pointer-events: none; 
+}
+
+/* --- INTERRUPTEUR DE VUES (PAGE 3) --- */
+.switch-btn {
+    flex: 1; /* Les deux boutons prennent exactement 50% de la largeur */
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--texte-secondaire);
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.switch-btn:hover {
+    color: var(--texte-principal);
+}
+
+.switch-btn.actif {
+    background: #ffffff;
+    color: #0CBBCC;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05) !important;
+}
+
+/* ========================================== */
+/* --- DESIGN DU SLIDER (PAGE 3)          --- */
+/* ========================================== */
+#slider-annee {
+    appearance: none;
+    -webkit-appearance: none; /* Désactive le style par défaut du navigateur */
+    /*width: 100%;*/
+    background: transparent; /* Enlève le fond gris parasite */
+    outline: none !important; /* Enlève le contour au clic */
+    border: none !important;
+}
+
+/* 1. La barre (le trait horizontal) */
+#slider-annee::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 3px;
+    background: #0CBBCC; /* Un gris très clair et doux */
+    border-radius: 3px;
+    border: none;
+}
+
+/* 2. Le bouton (la poignée qu'on glisse) */
+#slider-annee::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+    background: #0CBBCC; /* Ton bleu ! */
+    margin-top: -5px; /* Centre le bouton sur la barre */
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+/* Petit effet de zoom quand on attrape le bouton */
+#slider-annee::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+/* --- Compatibilité Firefox --- */
+#slider-annee::-moz-range-track {
+    /*width: 100%;*/
+    height: 3px;
+    background: #0CBBCC;
+    border-radius: 3px;
+    border: none;
+}
+#slider-annee::-moz-range-thumb {
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+    background: #0CBBCC;
+    border: none;
+    cursor: pointer;
+}

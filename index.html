@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget des États Européens</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    
+    <main>
+        <section id="page-carte" class="page">
+            <header>
+                <div class="header-left">
+                    <img id="logo-titre" src="https://raw.githubusercontent.com/bricerenouf/hackaviz2026/refs/heads/main/data/titre2.svg" alt="Budget des États Européens">
+                </div>
+                <div class="header-right">
+                    <img id="logo-ue" src="https://raw.githubusercontent.com/bricerenouf/hackaviz2026/refs/heads/main/data/UE_svg_blank_meta.svg" alt="Logo Union Européenne">
+                    
+                </div>
+            </header>
+
+            <div class="intro-texte" style="margin-top: -40px; padding-top: 0px;">
+                <p style="margin-top: 0px;">L'Union Européenne est décriée par certains et la Grande-Bretagne s'en est même détachée au début de l'année 2020. A partir de nombreuses sources, nous allons explorer les budgets alloués par les Etats européens et tenter de voir si la France est un bon élève où non. Sur cette première page, les pays sont classés par pourcentage alloué à chaque domaine de dépenses.</p>
+            </div>
+
+            <div class="layout-page-1">
+                
+            <div class="zone-principale">
+                
+                <div style="width: 100%; max-width: 1200px; text-align: left; margin-top: -60px; margin-bottom: 50px; padding-left: 20px;">
+                    <h2 id="titre-categorie-dynamique" style="color: #334155; font-size: 18px; margin: 0;">
+                        Catégorie : <span style="color:#0CBBCC;">...</span>
+                    </h2>
+                </div>
+                
+                <div id="grille-pays"></div>
+            </div>
+
+                <aside id="panneau-lateral" class="zone-filtres">
+                    
+                    <button id="btn-toggle-panneau" class="btn-vertical">
+                        <span class="fleche">◀</span>
+                    </button>
+                    
+                    <div class="contenu-panneau">
+                        <h3>Catégories de dépenses</h3>
+                        <div id="liste-filtres"></div>
+                        
+
+                    </div>
+
+                </aside>
+
+                <div id="details-hover-container"></div>
+
+                    <div id="conteneur-legende">
+                        <div id="legende">
+                            <span id="legende-min">0</span>
+                            <div class="barre-couleur"></div>
+                            <span id="legende-max">100</span>
+                        </div>
+                    </div>
+
+            </div>
+            <p class="indication-clic">Clique sur un pays pour une analyse plus détaillée</p>
+        </section>
+
+        <section id="page-2" class="page">
+            
+            <div class="header-page-2">
+                <div class="intro-texte" style="position: relative; top: 30px; margin-bottom: 10px;">
+                    <p>Centrons nôtre analyse sur l'Education, et plus pércisement, l'enseignement. Même si elle n'est pas une dépense majeure, c'est une préoccupation importante pour toutes les familles. Appuyé de nombreuses données comme la démographie et le bien-être, tentons d'y voir un peu plus clair sur les dépenses et le niveau scolaire.</p>
+                </div>
+            </div>
+
+            <div class="dashboard-container nouveau-layout">
+                
+                <div class="colonne-gauche-compacte">
+                    
+                    <div class="row-controles">
+                        <div class="controle-sexe">
+                            <span class="texte-change-pays">Change le pays -></span>
+                        </div>
+                        <div class="controle-age">
+                            <select id="filtre-pays" class="select-dashboard select-sub-card">
+                                <!--<option value="Global">Global (Europe)</option> -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row-demographie">
+                        <div class="sub-card card-sexe">
+                            <h4>Sexe</h4>
+                            <div id="pop-donut-container" class="donut-container"></div>
+                        </div>
+                        <div class="sub-card card-age">
+                            <h4>Âge</h4>
+                            <div id="age-bar-container" class="donut-container"></div>
+                        </div>
+                    </div>
+
+                    <div class="sub-card card-finance">
+                        <h4>Santé & Bien-être</h4>
+                        <div class="legende-graph">
+                            <span style="color:#15803d;">— Bonne santé</span>
+                            <span style="color:#84cc16;">— Satisfaction</span>
+                            <span style="color:#94a3b8; font-style: italic;">- - moy. UE</span>
+                        </div>
+                        <div id="bien-etre-line-container" class="donut-container" style="flex-grow: 1;"></div>
+                    </div>
+
+                    <div class="sub-card card-repartition">
+                        <h4>Répartition des dépenses (2023)</h4>
+                        <div id="chart-repartition" class="sunburst-chart"></div>
+                    </div>
+
+                </div>
+
+                <div class="colonne-centre">
+                    <h3 class="titre-section-droite" style="margin-top: 0; position: relative; top: -50px;">Enseignement</h3>
+                    
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 0; position: relative; top: -40px; width: 100%; gap: 40px;">                                        
+                    <div id="texte-dynamique-droite" class="texte-section-droite" style="flex: 1; margin-top: 0;"></div>
+
+                        <div id="competences-wrapper" style="width: 380px; flex-shrink: 0;">
+                            <div class="sub-card" style="padding: 15px; height: auto;">
+                                <h4 style="text-align: left; font-size: 11px; margin-bottom: 10px;">Corrélation Budget vs Compétences</h4>
+                                
+                                <div class="legende-graph" style="justify-content: flex-start; margin-bottom: 10px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+                                    <span style="color:#0CBBCC; font-size: 9px;">— Maths</span>
+                                    <span style="color:#f59e0b; font-size: 9px;">— Lecture</span>
+                                    <span style="color:#8b5cf6; font-size: 9px;">— Sciences</span>
+                                    <span style="color:#cbd5e1; font-size: 9px;">■ Dépenses (M€)</span>
+                                </div>
+                                
+                                <div id="competences-chart-container" style="width: 100%; height: 220px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="colonne-carte-droite">
+                    <div class="card-pays"> 
+                        <div id="pays-isole-container" style="width: 100%; height: 100%;"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <button id="btn-remonter" title="Remonter à la carte">↑</button>
+
+            <button id="btn-descendre" title="Descendre au paysage global">↓</button>
+
+        </section>
+
+        <section id="page-3" class="page" style="height: 100vh; overflow: hidden; padding: 40px; box-sizing: border-box; display: flex; flex-direction: column; width: 100%; position: relative;">
+
+            <img id="logo-ue-p3" src="https://raw.githubusercontent.com/bricerenouf/hackaviz2026/refs/heads/main/data/UE_svg_blank_meta.svg" alt="Logo Union Européenne">
+
+            <div class="header-page-3" style="margin-bottom: 20px; flex-shrink: 0;">
+                <div class="intro-texte" style="margin-bottom: 0;">
+                    <p>Pour terminer notre analyse, nous comparons des données un peu moins concrètes puisque l'on y parle de Produit Intérieur Brut. Une disparité s'opère t-elle entre les pays ? Que peut-on conclure des différents modèles économiques ?   </p>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 50px; flex: 1; width: 100%; min-height: 0;">
+                
+                <div style="width: 45%; flex-shrink: 0; display: flex; flex-direction: column; min-height: 0; margin-top: -30px;">
+                    
+                    <div class="sub-card" style="width: 350px; margin-bottom: 15px; z-index: 10; padding: 15px; height: auto; flex-shrink: 0;">                
+                        <h4 style="text-align: left; font-size: 11px; margin-bottom: 10px;">Animation</h4>
+                        <div style="margin-bottom: 15px; margin-top: 5px;">
+                            <label for="slider-annee" style="font-weight: 600; color: #334155; display: block; margin-bottom: 10px; font-size: 14px;">
+                                Année : <span id="valeur-annee-p3" style="color: #0CBBCC; font-size: 16px;">2023</span>
+                            </label>
+                            <div style="display: flex; gap: 10px; align-items: center;">
+                                <button id="btn-play-animation" class="select-sub-card" style="width: auto; padding: 6px 12px; border-color: #cbd5e1 !important; color: #334155; font-weight: bold; cursor: pointer; border-radius: 8px;">
+                                    ▶ Lecture
+                                </button>
+                                <input type="range" id="slider-annee" min="2002" max="2023" step="1" value="2023" style="width: 160px; margin-left: 28px; cursor: pointer;">
+                            </div>
+                        </div>
+                        <div style="background: #f1f5f9; border-radius: 8px; padding: 4px; display: flex; gap: 4px;">
+                            <button id="btn-vue-globale" class="switch-btn actif">Vue Globale</button>
+                            <button id="btn-vue-modeles" class="switch-btn">Par Modèles</button>
+                        </div>
+                    </div>
+
+                    <div id="bubble-chart-container" style="flex: 1; width: 100%; min-height: 0; margin: 0;"></div>
+
+                </div>
+
+                <div style="flex: 1; display: flex; flex-direction: column; padding-top: 75px; min-height: 0;">
+                    <h3 class="titre-section-droite" style="margin-bottom: 20px; font-size: 20px; flex-shrink: 0;">Analyse Macro-économique</h3>
+                    
+                    <div id="texte-dynamique-page3" class="texte-section-droite" style="margin-top: 0; flex: 1; overflow-y: auto; padding-right: 15px;"></div>
+                </div>
+
+            </div>
+
+            <button id="btn-remonter-p2" title="Remonter au tableau de bord">↑</button>
+
+        </section>
+        
+
+    </main>
+
+    <div id="tooltip" class="tooltip"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
