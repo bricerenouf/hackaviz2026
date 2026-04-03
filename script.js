@@ -104,14 +104,14 @@ Promise.all([
             }
             
             // --- 3. COMPÉTENCES DES ÉLÈVES (Ultra-tolérant) ---
-            // On attrape toute ligne qui contient "competence"
+            
             if (mesure.toLowerCase().includes("competence")) {
                 
-                // On nettoie le chiffre : on enlève les espaces et on met un point
+                
                 let scoreStr = String(rawVal).replace(/\s/g, '').replace(',', '.');
                 let scorePisa = parseFloat(scoreStr);
                 
-                // Si c'est un vrai nombre PISA (les scores PISA sont toujours > 100)
+                
                 if (!isNaN(scorePisa) && scorePisa > 100) {
                     if (!competencesParPaysEtAnnee[nomPays]) competencesParPaysEtAnnee[nomPays] = {};
                     if (!competencesParPaysEtAnnee[nomPays][annee]) competencesParPaysEtAnnee[nomPays][annee] = {};
@@ -216,7 +216,7 @@ Promise.all([
             d3.select(this).classed("actif", true);
             mettreAJourDonnees(categorieActuelle);
             
-            // NOUVEAU : On referme le panneau automatiquement après un choix !
+            
             d3.select("#panneau-lateral").classed("ouvert", false);
         });
 
@@ -230,7 +230,7 @@ Promise.all([
         mettreAJourDonnees(categorieActuelle);
     }
 
-    // NOUVEAU : Clic sur le bouton vertical pour ouvrir/fermer le panneau
+    
     d3.select("#btn-toggle-panneau").on("click", function() {
         const panneau = d3.select("#panneau-lateral");
         const estOuvert = panneau.classed("ouvert");
@@ -242,21 +242,21 @@ Promise.all([
     // --- INITIALISATION DE LA PAGE 2 (Le Dashboard) ---
     const selectFiltrePays = d3.select("#filtre-pays");
     
-    // On récupère les pays, on filtre les éventuelles lignes vides du CSV, et on trie (A-Z)
+    
     const tousLesPays = Object.keys(totauxParPays).filter(p => p && p.trim() !== "").sort(); 
     
-    // On remplit le menu déroulant
+    
     selectFiltrePays.html(""); 
     tousLesPays.forEach(p => selectFiltrePays.append("option").attr("value", p).text(p));
     
-    // NOUVEAU : On force proprement l'affichage du premier pays au chargement
+    
     if (tousLesPays.length > 0) {
-        const paysParDefaut = tousLesPays[0]; // Logiquement, ce sera "Allemagne"
-        selectFiltrePays.property("value", paysParDefaut); // On synchronise le menu visuellement
-        mettreAJourDashboard(paysParDefaut); // On lance le dessin de tous les graphiques
+        const paysParDefaut = tousLesPays[0]; 
+        selectFiltrePays.property("value", paysParDefaut); 
+        mettreAJourDashboard(paysParDefaut); 
     }
 
-    // On écoute les changements futurs
+    
     selectFiltrePays.on("change", function() {
         mettreAJourDashboard(this.value);
     });
@@ -289,7 +289,6 @@ function dessinerGrille(features) {
            .attr("d", path)
            .attr("fill", couleurMin)
            .attr("id", "path-" + idPropre)
-           // --- NOUVEAU : On ajoute le contour (Bleu épais pour la France, blanc fin pour les autres) ---
            .attr("stroke", nomGeo === "France" ? "#cc0c4c" : "#ffffff")
            .attr("stroke-width", nomGeo === "France" ? "1px" : "1px");
 
@@ -323,10 +322,10 @@ function dessinerGrille(features) {
             // 1. Le titre : Nom du pays + (2023)
             tooltip.append("div")
                 .attr("class", "tooltip-titre")
-                .style("margin-bottom", "2px") // On réduit un peu la marge sous le titre
+                .style("margin-bottom", "2px") 
                 .text(nomGeo + " (2023)");
                 
-            // 2. NOUVEAU : La catégorie juste en dessous
+            // 2. La catégorie juste en dessous
             tooltip.append("div")
                 .style("font-size", "11px")
                 .style("color", "#64748b")
@@ -336,7 +335,7 @@ function dessinerGrille(features) {
             
             // 3. On affiche le montant total
             
-            // On affiche le montant total de la catégorie au lieu du pourcentage
+            
             if (totalM > 0) {
                 tooltip.append("div")
                     .style("color", "#0CBBCC")
@@ -409,12 +408,12 @@ function dessinerGrille(features) {
             const couleurMemoire = d3.select(this).select("path").attr("data-color") || couleurVide;
             d3.select(this).select("path").attr("fill", couleurMemoire);
             cacherInfobulle();
-            // NOUVEAU : On cache le panneau de détails quand la souris s'en va
+            
             d3.select("#details-hover-container").classed("visible", false);
         })
         .on("click", function() {
             cacherInfobulle(); 
-            d3.select("#details-hover-container").classed("visible", false); // On le cache au clic aussi
+            d3.select("#details-hover-container").classed("visible", false); 
             d3.select("#filtre-pays").property("value", nomGeo);
             mettreAJourDashboard(nomGeo);
             document.getElementById("page-2").scrollIntoView({ behavior: "smooth" }); 
@@ -495,14 +494,14 @@ function mettreAJourDonnees(categorie) {
 function deplacerInfobulle(event) { 
     const tooltip = d3.select("#tooltip");
     
-    // On récupère la largeur réelle du tooltip (ou 200px par défaut s'il n'est pas encore bien rendu)
+    
     const tooltipWidth = tooltip.node().getBoundingClientRect().width || 200; 
     
     let positionX = event.pageX + 15; // Position normale (à droite de la souris)
     
-    // Si la position + la largeur du tooltip dépasse le bord droit de l'écran (avec une marge de sécurité de 20px)...
+    
     if (positionX + tooltipWidth > window.innerWidth - 20) {
-        // ... alors on le bascule à GAUCHE de la souris !
+       
         positionX = event.pageX - tooltipWidth - 15;
     }
     
@@ -840,15 +839,15 @@ function dessinerPaysIsole(targetId, selection) {
            .style("max-height", "100%")
            .style("max-width", "100%");
 
-        // On rend tous les chemins cliquables et on leur donne une couleur de base
+        
         svg.selectAll("path")
            .style("fill", "#e2e8f0")
            .style("stroke", "#ffffff")
            .style("stroke-width", "0.5px")
            .style("transition", "fill 0.3s ease")
-           .style("cursor", "pointer"); // La petite main au survol !
+           .style("cursor", "pointer");
 
-        // On gère les couleurs et les interactions pays par pays
+        
         svg.selectAll("path").each(function() {
             const path = d3.select(this);
             const nomPaysAttr = path.attr("pays");
@@ -858,20 +857,20 @@ function dessinerPaysIsole(targetId, selection) {
                 
                 // --- 1. COULEUR AU CHARGEMENT ---
                 if (nomPaysAttr === selection) {
-                    path.style("fill", "#6383b8"); // <-- GRIS TRÈS FONCÉ ICI
-                    this.parentNode.appendChild(this); // On le passe au premier plan
+                    path.style("fill", "#6383b8"); 
+                    this.parentNode.appendChild(this); 
                 } else if (selection === "Global") {
-                    path.style("fill", "#cbd5e1"); // Tous les pays en gris moyen si "Global"
+                    path.style("fill", "#cbd5e1"); 
                 }
 
                 // --- 2. INTERACTIVITÉ (Hover + Clic) ---
                 path.on("mouseover", function(event) {
-                    // On grise un peu au survol (sauf si c'est déjà le pays sélectionné)
+                    
                     if (nomPaysAttr !== selection) {
                         d3.select(this).style("fill", "#94a3b8");
                     }
                     
-                    // On affiche le nom du pays dans l'infobulle
+                    
                     const tooltip = d3.select("#tooltip");
                     tooltip.html("").append("div").attr("class", "tooltip-titre").text(nomPaysAttr);
                     tooltip.classed("visible", true);
@@ -881,9 +880,9 @@ function dessinerPaysIsole(targetId, selection) {
                 })
                 .on("mouseout", function() {
                     cacherInfobulle();
-                    // On restaure la bonne couleur en quittant le survol
+                    
                     if (nomPaysAttr === selection) {
-                        d3.select(this).style("fill", "#6383b8"); // <-- ET ON LE GARDE TRÈS FONCÉ ICI
+                        d3.select(this).style("fill", "#6383b8"); 
                     } else if (selection === "Global") {
                         d3.select(this).style("fill", "#cbd5e1");
                     } else {
@@ -891,12 +890,12 @@ function dessinerPaysIsole(targetId, selection) {
                     }
                 })
                 .on("click", function() {
-                    cacherInfobulle(); // Cache l'infobulle pour éviter un bug visuel
+                    cacherInfobulle(); 
                     
-                    // La magie opère : on met à jour le menu déroulant...
+                    
                     d3.select("#filtre-pays").property("value", nomPaysAttr);
                     
-                    // ...et on relance tout le dashboard avec le nouveau pays !
+                    
                     mettreAJourDashboard(nomPaysAttr);
                 });
             }
@@ -1133,55 +1132,7 @@ function mettreAJourTexteDynamique(selection) {
 
         const anneesSat = satisfactionParPaysEtAnnee[selection] ? Object.keys(satisfactionParPaysEtAnnee[selection]).sort((a,b) => b-a) : [];
         const satisfaction = anneesSat.length > 0 ? satisfactionParPaysEtAnnee[selection][anneesSat[0]].toFixed(1) : "N/D";
-/*
-        // --- 5. RÉDACTION DU TEXTE COMPLET ---
-        
-        let htmlTexte = `<div style="color: #334155; font-size: 14px; line-height: 1.6;"><b>Pression démographique et stratégie budgétaire</b><br>`;
-        
-        if (budgetEns > 0 && pop2023 > 0) {
-            const popMillions = (pop2023 / 1000000).toFixed(1);
-            htmlTexte += `En 2023, la <b>${selection}</b> abrite une population de ${popMillions} millions d'habitants, s'inscrivant dans un pays <b>${evolutionPopDetail}</b>. `;
-            
-            if (tendancePop === "hausse") htmlTexte += `Pour absorber l'afflux constant de nouveaux élèves, `;
-            else if (tendancePop === "baisse") htmlTexte += `Malgré un vivier étudiant qui tend à se réduire, `;
-            else htmlTexte += `Pour maintenir ses infrastructures de façon stable, `;
 
-            htmlTexte += `le gouvernement a alloué un budget global de <b>${budgetEns.toLocaleString("fr-FR")} M€</b> au secteur de l'Enseignement. Cet engagement majeur représente un effort direct de <b style="color:#0CBBCC;">${depHabitant} € par habitant</b>.</span><br><br>`;
-        } else {
-            htmlTexte += `Les données consolidées manquent pour analyser avec précision l'effort financier par habitant en 2023.</span><br><br>`;
-        }
-
-        htmlTexte += `<b>Efficacité : Le verdict des évaluations internationales</b><br>`;
-        if (moyennePisa !== "N/D") {
-            htmlTexte += `Comment l'effort financier se matérialise-t-il sur les bancs de l'école ? Lors de la dernière évaluation, les élèves du pays ont obtenu une moyenne globale de <b>${moyennePisa} points</b>. En observant le détail (<b>${scoreMaths}</b> en maths, <b>${scoreLecture}</b> en lecture et <b>${scoreSciences}</b> en sciences), le système se positionne <b style="color:${couleurPisa};">${qualificatifPisa}</b>. <br><br>${analyseImpact} `;
-        } else {
-            htmlTexte += `La base de données actuelle ne dispose pas des derniers résultats scolaires pour ce pays. Il est donc difficile de mesurer la rentabilité immédiate des investissements mis en place. `;
-        }
-        htmlTexte += `<br><br>`;
-
-        htmlTexte += `<b>Écosystème social et conclusion</b><br>`;
-        if (satisfaction !== "N/D") {
-            htmlTexte += `Bien sûr, l'école ne fait pas tout : le cadre de vie joue un rôle énorme. Avec une qualité de vie estimée à "bonne" par <b>${satisfaction}%</b> ses habitants en 2024, le pays `;
-            
-            if (satisfaction >= 7.5) {
-                htmlTexte += `offre un environnement très serein. C'est un avantage énorme pour les élèves : grandir dans un climat rassurant permet d'étudier avec l'esprit libre et facilite grandement la réussite. `;
-            } else if (satisfaction >= 6.5) {
-                htmlTexte += `offre un cadre de vie plutôt stable et agréable. Même si tout n'est pas parfait, le contexte reste tout à fait correct pour permettre aux jeunes de suivre leur scolarité sereinement. `;
-            } else {
-                htmlTexte += `fait face à un climat social plus compliqué. Et ça compte beaucoup : un quotidien difficile ou stressant finit toujours par franchir les portes de l'école et pèse sur la concentration des élèves, même avec le meilleur budget du monde. `;
-            }
-        } else {
-            htmlTexte += `Difficile d'en dire plus sur le climat social, car nous n'avons pas d'indicateur récent sur le bien-être de la population. `;
-        }
-        
-        if (syntheseGlobale) {
-            htmlTexte += `<br><br><i style="color: #334155;">${syntheseGlobale}</i>`;
-        }
-        htmlTexte += `</div>`;
-
-        texteContainer.html(htmlTexte);
-
-*/
 
     // --- 5. RÉDACTION DU TEXTE COMPLET ---
         
@@ -1236,7 +1187,7 @@ function mettreAJourTexteDynamique(selection) {
         }
         htmlTexte += `</div>`;
 
-        htmlTexte += `</div>`; // Fin du grand conteneur
+        htmlTexte += `</div>`; 
 
         texteContainer.html(htmlTexte);
 
@@ -1289,7 +1240,7 @@ function dessinerGraphiqueCompetences(selection) {
         const width = node.getBoundingClientRect().width - margin.left - margin.right;
         const height = 220 - margin.top - margin.bottom;
 
-        // Sécurité si l'écran est trop petit ou en chargement
+        
         if(width <= 0) return; 
 
         const svg = conteneur.append("svg")
@@ -1299,7 +1250,7 @@ function dessinerGraphiqueCompetences(selection) {
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
-        // Abscisses fixées de 2006 à 2022
+       
         const x = d3.scaleLinear().domain([2006, 2022]).range([0, width]);
         
         const minScore = allScores.length > 0 ? d3.min(allScores) : 380;
@@ -1386,7 +1337,7 @@ const modelesEco = {
 let simulationForce;
 let modeClusterActif = false;
 let dataBulles = [];
-let timerAnimation = null; // Notre chronomètre global
+let timerAnimation = null; 
 
 
    function initPage3() {
@@ -1395,7 +1346,7 @@ let timerAnimation = null; // Notre chronomètre global
         const annee = parseInt(this.value);
         d3.select("#valeur-annee-p3").text(annee);
         dessinerBubbleLandscape(annee);
-        mettreAJourTextePage3(annee); // ON AJOUTE L'APPEL ICI !
+        mettreAJourTextePage3(annee); 
     });
 
     // 2. LE BOUTON PLAY/PAUSE
@@ -1416,7 +1367,7 @@ let timerAnimation = null; // Notre chronomètre global
                 slider.value = slider.min;
                 d3.select("#valeur-annee-p3").text(slider.value);
                 dessinerBubbleLandscape(parseInt(slider.value));
-                mettreAJourTextePage3(parseInt(slider.value)); // MISE À JOUR ICI AUSSI
+                mettreAJourTextePage3(parseInt(slider.value)); 
             }
             
             timerAnimation = setInterval(() => {
@@ -1426,7 +1377,7 @@ let timerAnimation = null; // Notre chronomètre global
                     slider.value = anneeActuelle;
                     d3.select("#valeur-annee-p3").text(anneeActuelle);
                     dessinerBubbleLandscape(anneeActuelle);
-                    mettreAJourTextePage3(anneeActuelle); // ET MISE À JOUR CHAQUE ANNÉE !
+                    mettreAJourTextePage3(anneeActuelle); 
                 } else {
                     clearInterval(timerAnimation);
                     timerAnimation = null;
@@ -1436,34 +1387,34 @@ let timerAnimation = null; // Notre chronomètre global
         }
     });
 
-    // --- NOUVEAU : LOGIQUE DE L'INTERRUPTEUR DE VUES ---
+    // --- LOGIQUE DE L'INTERRUPTEUR DE VUES ---
     d3.select("#btn-vue-globale").on("click", function() {
-        if (!modeClusterActif) return; // Si on y est déjà, on ne fait rien !
+        if (!modeClusterActif) return; 
         
         modeClusterActif = false;
         
-        // On bascule les couleurs (classes)
+        
         d3.select(this).classed("actif", true);
         d3.select("#btn-vue-modeles").classed("actif", false);
         
-        // On redessine le graphique
+        
         dessinerBubbleLandscape(parseInt(d3.select("#slider-annee").property("value")));
     });
 
     d3.select("#btn-vue-modeles").on("click", function() {
-        if (modeClusterActif) return; // Si on y est déjà, on ne fait rien !
+        if (modeClusterActif) return; 
         
         modeClusterActif = true;
         
-        // On bascule les couleurs (classes)
+        
         d3.select(this).classed("actif", true);
         d3.select("#btn-vue-globale").classed("actif", false);
         
-        // On redessine le graphique
+        
         dessinerBubbleLandscape(parseInt(d3.select("#slider-annee").property("value")));
     });
 
-    // On attend 500ms que la page soit bien affichée, puis on lance le dessin ET le texte
+    
     setTimeout(() => {
         dessinerBubbleLandscape(2023);
         mettreAJourTextePage3(2023);
@@ -1482,13 +1433,13 @@ function preparerDataPage3(annee) {
         if (depTotal > 0 && pibTotal > 0 && popTotal > 0) {
             
             // --- 1. LE BON CALCUL (Retour à la V1 cohérente) ---
-            // Le PIB est en millions d'euros, la population en unités absolues
+            
             const pibHab = (pibTotal * 1000000) / popTotal; 
             
             // --- 2. LE CALCUL DES DÉPENSES ---
             let depensesPourcentPib = (depTotal / pibTotal) * 100;
             
-            // SÉCURITÉ UNITÉS : Si on tombe à 0.1 %, c'est un écart de x1000 entre les CSV
+            
             if (depensesPourcentPib < 2) {
                 depensesPourcentPib = depensesPourcentPib * 1000;
             }
@@ -1533,15 +1484,15 @@ function dessinerBubbleLandscape(annee) {
     svg.attr("viewBox", `0 0 ${width} ${height}`);
     svg.selectAll(".axes").remove(); 
 
-    // --- NOUVEAU : SUPPRESSION DE L'ANCIEN TITRE ---
+    // --- SUPPRESSION DE L'ANCIEN TITRE ---
     svg.selectAll(".titre-graph").remove();
 
-    // --- NOUVEAU : DESSIN DU TITRE DANS LE SVG ---
+    // --- DESSIN DU TITRE DANS LE SVG ---
     svg.append("text")
         .attr("class", "titre-graph")
-        .attr("x", width / 2) // On le centre parfaitement au milieu de la largeur
-        .attr("y", 25)        // On le place tout en haut (à 25px du bord)
-        .attr("fill", "#64748b") // La couleur de ton texte secondaire
+        .attr("x", width / 2) 
+        .attr("y", 25)        
+        .attr("fill", "#64748b") 
         .style("text-anchor", "middle")
         .style("font-size", "10px")
         .style("font-weight", "700")
@@ -1549,7 +1500,7 @@ function dessinerBubbleLandscape(annee) {
         .style("letter-spacing", "1px")
         .text("Évolution & Modèles Économiques");
 
-    // 1. MAGIE D'ANIMATION : On sauvegarde les anciennes positions !
+    
     const anciennesBulles = new Map();
     svg.selectAll(".bulle-groupe").each(function(d) {
         anciennesBulles.set(d.pays, { x: d.x, y: d.y, vx: d.vx, vy: d.vy });
@@ -1558,7 +1509,7 @@ function dessinerBubbleLandscape(annee) {
     dataBulles = preparerDataPage3(annee);
     if(dataBulles.length === 0) return;
 
-    // 2. On injecte les anciennes positions dans les nouvelles données
+    
     dataBulles.forEach(d => {
         const old = anciennesBulles.get(d.pays);
         if (old && old.x && old.y) {
@@ -1567,7 +1518,7 @@ function dessinerBubbleLandscape(annee) {
             d.vx = old.vx || 0;
             d.vy = old.vy || 0;
         } else {
-            // S'il y a un nouveau pays, il apparaît au centre
+            
             d.x = width / 2;
             d.y = height / 2;
         }
@@ -1579,7 +1530,7 @@ function dessinerBubbleLandscape(annee) {
     
     const x = d3.scaleLinear().domain([0, maxPib * 1.05]).range([110, width - 60]);
     
-    // NOUVEAU : On force l'axe Y de 0 à 100 de manière absolue !
+    
     const y = d3.scaleLinear().domain([0, 100]).range([height - 80, 50]);
     
     const r = d3.scaleSqrt().domain([0, d3.max(dataBulles, d => d.popTotal)]).range([10, 50]);
@@ -1598,7 +1549,7 @@ function dessinerBubbleLandscape(annee) {
 
     // --- 2. L'AXE Y (Ordonnées) ---
     groupeAxes.append("g").attr("transform", `translate(110,0)`)
-              // On demande 10 "ticks" (graduations) pour qu'il affiche 0, 10, 20... jusqu'à 100
+              
               .call(d3.axisLeft(y).ticks(10).tickFormat(d => d + " %"))
               .attr("color", "#94a3b8");
               
@@ -1611,9 +1562,9 @@ function dessinerBubbleLandscape(annee) {
     // ==========================================
     const groupeLegende = svg.append("g")
         .attr("class", "legende-taille")
-        // On la place en haut à droite (100px du bord droit, 130px du haut)
+        
         .attr("transform", `translate(${width - 100}, 130)`)
-        .style("opacity", modeClusterActif ? 0 : 1); // Disparaît en mode cluster
+        .style("opacity", modeClusterActif ? 0 : 1); 
 
     groupeLegende.append("text")
         .attr("x", 0)
@@ -1625,14 +1576,14 @@ function dessinerBubbleLandscape(annee) {
         .style("text-transform", "uppercase")
         .text("Population");
 
-    // On calcule 3 tailles de référence (Le Max de l'année, la moitié, et un dixième)
+    
     const maxPop = d3.max(dataBulles, d => d.popTotal) || 80000000;
     const valeursLegende = [maxPop, maxPop / 2, maxPop / 10];
 
     valeursLegende.forEach(val => {
         const rayon = r(val);
         
-        // Les cercles concentriques
+        
         groupeLegende.append("circle")
             .attr("cx", 0)
             .attr("cy", -rayon)
@@ -1642,7 +1593,7 @@ function dessinerBubbleLandscape(annee) {
             .style("stroke-width", "1px")
             .style("opacity", 0.6);
 
-        // Les petites lignes en pointillés
+        
         groupeLegende.append("line")
             .attr("x1", 0)
             .attr("x2", 40)
@@ -1652,7 +1603,7 @@ function dessinerBubbleLandscape(annee) {
             .style("stroke-dasharray", "2,2")
             .style("opacity", 0.6);
 
-        // Les textes (ex: "80 M")
+        
         groupeLegende.append("text")
             .attr("x", 45)
             .attr("y", -rayon * 2)
@@ -1688,14 +1639,14 @@ function dessinerBubbleLandscape(annee) {
 
     node = nodeEnter.merge(node);
 
-    // Transition fluide sur la taille et la couleur
+    
     node.select("circle")
         .transition().duration(1000)
         .attr("r", d => r(d.popTotal))
         .style("fill", d => color(d.catDom));
 
     node.on("mouseover", function(event, d) {
-        // --- MODIFICATION ICI : 1px au lieu de 3px ---
+        
         d3.select(this).select("circle").style("stroke", "#4b5668").style("stroke-width", "1px").style("opacity", 1);
         
         const tooltip = d3.select("#tooltip");
@@ -1709,7 +1660,7 @@ function dessinerBubbleLandscape(annee) {
     })
     .on("mousemove", deplacerInfobulle)
     .on("mouseout", function() {
-        // On remet la bordure blanche normale quand la souris quitte la bulle
+        
         d3.select(this).select("circle").style("stroke", "#ffffff").style("stroke-width", "2px").style("opacity", 0.85);
         cacherInfobulle();
     })
@@ -1741,9 +1692,9 @@ function dessinerBubbleLandscape(annee) {
         svg.selectAll(".label-cluster").lower();
     }
 
-    // Paramétrage de la simulation avec un alpha modéré pour une glisse douce !
+    
     simulationForce = d3.forceSimulation(dataBulles)
-        .alpha(0.3) // <-- On ne relance pas le moteur à pleine balle, juste assez pour glisser
+        .alpha(0.3) 
         .velocityDecay(0.3)
         .force("collide", d3.forceCollide().radius(d => r(d.popTotal) + 2).iterations(4));
 
@@ -1780,29 +1731,29 @@ function dessinerBubbleLandscape(annee) {
 // ==========================================
 function initClignotementPays() {
     setInterval(() => {
-        // On récupère tous les chemins SVG des pays de la grille
+        
         const paths = d3.selectAll(".pays-container path").nodes();
         if (paths.length === 0) return;
 
-        // On en pioche un au hasard
+        
         const indexAleatoire = Math.floor(Math.random() * paths.length);
         const pathChoisi = d3.select(paths[indexAleatoire]);
 
-        // On récupère sa vraie couleur actuelle pour pouvoir la remettre après
+        
         const couleurNormale = pathChoisi.attr("data-color") || couleurVide;
 
-        // L'animation "Respiration" (Fondu ultra-doux)
+        
         pathChoisi
             .transition()
-            .duration(400) // 1.2 seconde pour s'allumer très progressivement
-            .ease(d3.easeSinInOut) // Courbe naturelle de respiration
+            .duration(400) 
+            .ease(d3.easeSinInOut) 
             .attr("fill", "#0CBBCC") 
             .transition()
-            .duration(600) // 1.8 secondes pour s'éteindre et fondre dans le décor
+            .duration(600) 
             .ease(d3.easeSinInOut)
             .attr("fill", couleurNormale); 
 
-    }, 5000); // Se déclenche toutes les 5 secondes
+    }, 5000); 
 }
 
 // ==========================================
@@ -1828,11 +1779,11 @@ function mettreAJourTextePage3(annee) {
                 const pibHabitant = (pibM * 1000000) / pop;
                 let depHabitant = (depM * 1000000) / pop;
                 
-                // --- LE FAMEUX CORRECTIF D'UNITÉ QUE TU AVAIS TROUVÉ ---
+                
                 let ratioDepense = (depM / pibM) * 100;
                 if (ratioDepense < 2) {
                     ratioDepense = ratioDepense * 1000;
-                    depHabitant = depHabitant * 1000; // <-- LA LIGNE MANQUANTE ÉTAIT ICI !
+                    depHabitant = depHabitant * 1000; 
                 }
 
                 paysValides.push({ pays, pibHabitant, depHabitant, pibM, pop, ratioDepense });
@@ -1855,22 +1806,22 @@ function mettreAJourTextePage3(annee) {
         const pibMoyenHab = d3.mean(paysValides, d => d.pibHabitant);
         const depMoyenneHab = d3.mean(paysValides, d => d.depHabitant);
         
-        // On calcule la moyenne des ratios corrigés
+        
         const ratioDepenseMoyen = d3.mean(paysValides, d => d.ratioDepense);
 
-        // NOUVEAU : On trie en utilisant TON ratio corrigé
+        
         const paysTriesParRatio = [...paysValides].sort((a, b) => b.ratioDepense - a.ratioDepense);
         const paysMaxRatio = paysTriesParRatio[0];
         const paysMinRatio = paysTriesParRatio[paysTriesParRatio.length - 1];
 
         // --- RÉDACTION DU TEXTE ---
-        // On transforme le conteneur principal en "colonne flexible" prenant toute la hauteur
+        
         let htmlTexte = `<div style="color: #334155; font-size: 14px; line-height: 1.6; display: flex; flex-direction: column; height: 100%; min-height: 100%;">`;
 
         // --- BLOC DE TEXTE PRINCIPAL ---
         htmlTexte += `<div>`;
 
-        // Paragraphe 1 : Vue Globale (avec marge en bas pour aérer)
+        // Paragraphe 1 : Vue Globale 
         htmlTexte += `<div style="margin-bottom: 65px;">`;
         htmlTexte += `<b>Vue globale de l'économie européenne en ${annee}</b><br>`;
         htmlTexte += `En <b>${annee}</b>, le graphique à bulles met en lumière les disparités vertigineuses qui traversent l'Europe. Pour une population analysée de <b>${(totalPop / 1000000).toFixed(0)} millions d'habitants</b>, la moyenne européenne se situe autour de <b>${pibMoyenHab.toLocaleString("fr-FR", {maximumFractionDigits:0})} €</b> de richesse produite (PIB) par personne, dont environ <b style="color:#0CBBCC;">${ratioDepenseMoyen.toFixed(1)}%</b> (soit <b>${depMoyenneHab.toLocaleString("fr-FR", {maximumFractionDigits:0})} €</b>) sont absorbés par la dépense publique de l'État. L'écart est frappant : un habitant de <b>${paysLePlusRiche.pays}</b> évolue dans une économie générant <b>${paysLePlusRiche.pibHabitant.toLocaleString("fr-FR", {maximumFractionDigits:0})} €</b>, tandis qu'à l'autre extrême du continent, <b>${paysLeMoinsRiche.pays}</b> se situe à seulement <b>${paysLeMoinsRiche.pibHabitant.toLocaleString("fr-FR", {maximumFractionDigits:0})} €</b> par habitant.`;
@@ -1888,15 +1839,15 @@ function mettreAJourTextePage3(annee) {
         htmlTexte += `<i>En bref ? Un budget public, ce n'est pas qu'un énorme fichier Excel ennuyeux : c'est le reflet direct d'un choix de société ! Qu'il s'agisse de choyer ses aînés, de booster l'école ou d'assurer la paix sociale, la vraie question n'est pas de savoir qui dépense le plus... mais bien qui transforme le mieux ses euros en bonheur et en réussite pour ses citoyens ! À titre de comparaison, la France illustre d'ailleurs parfaitement ce choix d'un État-providence fort, avec une dépense publique se maintenant historiquement autour des 57 % de son PIB.</i>`;
         htmlTexte += `</div>`;
 
-        htmlTexte += `</div>`; // Fin du bloc de texte principal
+        htmlTexte += `</div>`; 
 
         // --- FOOTER / SIGNATURE ---
-        // Le margin-top: auto; pousse automatiquement ce bloc tout en bas du conteneur parent
+        
         htmlTexte += `<div style="margin-top: auto; border-top: 1px solid #e2e8f0; padding-top: 12px; text-align: center; font-size: 11px; color: #94a3b8;">`;
         htmlTexte += `Réalisé par <b style="color:#64748b;">Brice Renouf</b> dans le cadre du <b style="color:#64748b;">Hackaviz 2026</b> organisé par l'association <b style="color:#64748b;">Toulouse-Dataviz</b>.`;
         htmlTexte += `</div>`;
 
-        htmlTexte += `</div>`; // Fin du conteneur parent global
+        htmlTexte += `</div>`; 
 
         texteContainer.html(htmlTexte);
 
