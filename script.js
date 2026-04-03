@@ -1793,11 +1793,11 @@ function dessinerBubbleLandscape(annee) {
     if (simulationForce) simulationForce.stop(); 
 
     const centresClusters = {
-        "Nordique": { x: width * 0.25, y: height * 0.3 },
-        "Continental": { x: width * 0.75, y: height * 0.3 },
-        "Méditerranéen": { x: width * 0.25, y: height * 0.7 },
-        "Anglo-Saxon": { x: width * 0.75, y: height * 0.7 },
-        "Europe de l'Est / Autre": { x: width * 0.5, y: height * 0.5 }
+        "Anglo-Saxon": { x: width * 0.25, y: height * 0.3 },             // En haut à gauche
+        "Méditerranéen": { x: width * 0.25, y: height * 0.7 },           // En bas à gauche
+        "Continental": { x: width * 0.5, y: height * 0.5 },              // Pile au milieu
+        "Nordique": { x: width * 0.75, y: height * 0.3 },                // En haut à droite
+        "Europe de l'Est / Autre": { x: width * 0.75, y: height * 0.7 }  // En bas à droite
     };
 
     svg.selectAll(".label-cluster").remove();
